@@ -24,9 +24,11 @@ class RequestedItemRepository @Inject constructor(
     private val userDao: UserDao,
 ) {
 
+    // todo: convert to Shared Flow
     private val newItemsAddedChannel = Channel<RequestedItem>(Channel.RENDEZVOUS)
     val newItemsFlow = newItemsAddedChannel.receiveAsFlow()
 
+    // todo: convert to Shared Flow
     private val errorChannel = Channel<RequestedItemError>(Channel.RENDEZVOUS)
     val errorFlow = errorChannel.receiveAsFlow()
 
