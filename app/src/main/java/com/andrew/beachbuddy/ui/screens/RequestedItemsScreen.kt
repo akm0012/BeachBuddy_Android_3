@@ -1,14 +1,17 @@
 package com.andrew.beachbuddy.ui.screens
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.andrew.beachbuddy.database.model.RequestedItem
 import com.andrew.beachbuddy.ui.DarkLightPreviews
+import com.andrew.beachbuddy.ui.common.ProfilePhoto
 import com.andrew.beachbuddy.ui.domainmodels.RequestedItemsDM
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.RequestedItemState
@@ -37,9 +40,11 @@ fun RequestedItemsScreen(
     onPullToRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Timber.tag("akmakm").d("UiState: $uiState")
+
+    
 
 }
+
 
 @DarkLightPreviews
 @Preview (showBackground = true)
