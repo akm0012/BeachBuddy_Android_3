@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Beach Buddy</string>
 
-    <string name="base_endpoint" translatable="false">https://flexible-ox-accurately.ngrok-free.app/</string>
+<!--    Moved base endpoint to the network module -->
+<!--    <string name="base_endpoint" translatable="false">https://flexible-ox-accurately.ngrok-free.app/</string>-->
 
     <!-- Errors -->
     <string name="no_network_detected">Sorry, you appear to be offline.</string>
     <string name="timeout">Sorry, the network request timed out. Please try again later.</string>
     <string name="requested_items_empty_state_message">Nothing to do here… the beach is calling!</string>
+    <string name="completed_today">Completed Today</string>
     <string name="leaderboard">Leaderboard</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.andrew.beachbuddy.ui.specific
+package com.andrew.beachbuddy.ui.specific.requesteditem
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.andrew.beachbuddy.ui.DarkLightPreviews
+import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.common.ProfilePhoto
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.theme.Dimens.ProfileCircleSize
@@ -95,7 +95,7 @@ fun RequestedItem(
     }
 }
 
-@DarkLightPreviews
+@DarkLightPhonePreviews
 @Composable
 private fun RequestedItemPreview() {
     BeachBuddyTheme {
@@ -125,7 +125,7 @@ private fun RequestedItemPreviewChecked() {
     }
 }
 
-@DarkLightPreviews
+@DarkLightPhonePreviews
 @Composable
 private fun RequestedItemPreviewCompleted() {
     BeachBuddyTheme {
@@ -140,7 +140,7 @@ private fun RequestedItemPreviewCompleted() {
     }
 }
 
-@DarkLightPreviews
+@DarkLightPhonePreviews
 @Composable
 private fun RequestedItemPreviewLongerText() {
     BeachBuddyTheme {

@@ -1,27 +1,18 @@
 package com.andrew.beachbuddy.ui.screens
 
-import android.content.res.Configuration
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.andrew.beachbuddy.database.model.RequestedItem
-import com.andrew.beachbuddy.ui.DarkLightPreviews
-import com.andrew.beachbuddy.ui.common.ProfilePhoto
+import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.domainmodels.RequestedItemsDM
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.RequestedItemState
 import com.andrew.beachbuddy.ui.viewmodels.RequestedItemViewModel
-import kotlinx.coroutines.delay
-import timber.log.Timber
 
 @Composable
 fun RequestedItemsScreen(
@@ -46,22 +37,21 @@ fun RequestedItemsScreen(
     modifier: Modifier = Modifier
 ) {
 
-    var isGray by remember { mutableStateOf(false) }
+//    val requestedItemUiState = RequestedItemUiState()
 
-    LaunchedEffect(Unit) {
-        delay(3000)
-        isGray = true
+    LazyColumn(
+        modifier = modifier
+    ) {
+//        items()
+
+
     }
 
-    ProfilePhoto(
-        imageUrl = "https://flexible-ox-accurately.ngrok-free.app/StaticFiles/images/andrew.jpeg",
-        isGrayedOut = isGray
-    )
 
 }
 
 
-@DarkLightPreviews
+@DarkLightPhonePreviews
 @Preview(showBackground = true)
 @Composable
 private fun RequestedScreenPreview() {

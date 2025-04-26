@@ -2,7 +2,6 @@ package com.andrew.beachbuddy.inject
 
 import android.content.Context
 import com.andrew.beachbuddy.BuildConfig
-import com.andrew.beachbuddy.R
 import com.andrew.beachbuddy.network.interceptors.ErrorInterceptor
 import com.andrew.beachbuddy.network.interceptors.SecretHeaderInterceptor
 import dagger.Module
@@ -15,6 +14,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
+const val BASE_ENDPOINT = "https://flexible-ox-accurately.ngrok-free.app/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -42,9 +43,9 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(@ApplicationContext context: Context, httpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(context.getString(R.string.base_endpoint))
+            .baseUrl(BASE_ENDPOINT)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient)
             .build()
