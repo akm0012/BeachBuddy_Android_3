@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.andrew.beachbuddy.ui.DarkLightPreviews
 import com.andrew.beachbuddy.ui.common.ProfilePhoto
@@ -30,7 +29,10 @@ fun RequestedItem(
     onCheckChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(modifier = modifier) {
+    Card(
+        shape = MaterialTheme.shapes.small,
+        modifier = modifier
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = isChecked,
@@ -41,14 +43,15 @@ fun RequestedItem(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
-                    .padding(end = StandardPadding)
+                    .padding(end = StandardPadding, top = 10.dp, bottom = 10.dp)
                     .weight(1f)
             ) {
-                // Todo: style text
                 Text(
-                    text = titleText
+                    style = MaterialTheme.typography.titleMedium,
+                    text = titleText,
                 )
                 Text(
+                    style = MaterialTheme.typography.labelSmall,
                     text = subtitleText
                 )
             }
@@ -62,8 +65,6 @@ fun RequestedItem(
             Spacer(modifier = Modifier.size(StandardPadding))
         }
     }
-
-
 }
 
 @DarkLightPreviews
@@ -73,6 +74,20 @@ private fun RequestedItemPreview() {
         RequestedItem(
             isChecked = false,
             titleText = "Beer (13)",
+            subtitleText = "Andrew • Monday 3:33pm",
+            profilePhotoUrl = "",
+            onCheckChanged = {}
+        )
+    }
+}
+
+@DarkLightPreviews
+@Composable
+private fun RequestedItemPreviewLongerText() {
+    BeachBuddyTheme {
+        RequestedItem(
+            isChecked = false,
+            titleText = "This is a long message that would probably not ever happen! (13)",
             subtitleText = "Andrew • Monday 3:33pm",
             profilePhotoUrl = "",
             onCheckChanged = {}
