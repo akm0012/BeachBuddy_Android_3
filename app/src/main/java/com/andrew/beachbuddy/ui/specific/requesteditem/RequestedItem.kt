@@ -35,7 +35,7 @@ import com.andrew.beachbuddy.ui.theme.Dimens.StandardPadding
  *  - This is when the item is in the completed section, and therefore grayed out and stricked through
  */
 @Composable
-fun RequestedItem(
+fun RequestedItemComposable(
     titleText: String,
     subtitleText: String,
     profilePhotoUrl: String,
@@ -51,8 +51,9 @@ fun RequestedItem(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = isChecked,
+                enabled = !isChecked, // If it's checked, disable the Checkbox
                 onCheckedChange = onCheckChanged,
-                Modifier.padding(vertical = 20.dp, horizontal = StandardPadding)
+                modifier = Modifier.padding(vertical = 20.dp, horizontal = StandardPadding)
             )
 
             Column(
@@ -99,7 +100,7 @@ fun RequestedItem(
 @Composable
 private fun RequestedItemPreview() {
     BeachBuddyTheme {
-        RequestedItem(
+        RequestedItemComposable(
             isChecked = false,
             isCompleted = false,
             titleText = "Beer (13)",
@@ -114,7 +115,7 @@ private fun RequestedItemPreview() {
 @Composable
 private fun RequestedItemPreviewChecked() {
     BeachBuddyTheme {
-        RequestedItem(
+        RequestedItemComposable(
             isChecked = true,
             isCompleted = false,
             titleText = "Beer (13)",
@@ -129,7 +130,7 @@ private fun RequestedItemPreviewChecked() {
 @Composable
 private fun RequestedItemPreviewCompleted() {
     BeachBuddyTheme {
-        RequestedItem(
+        RequestedItemComposable(
             isChecked = true,
             isCompleted = true,
             titleText = "Beer (13)",
@@ -144,7 +145,7 @@ private fun RequestedItemPreviewCompleted() {
 @Composable
 private fun RequestedItemPreviewLongerText() {
     BeachBuddyTheme {
-        RequestedItem(
+        RequestedItemComposable(
             isChecked = false,
             isCompleted = false,
             titleText = "This is a long message that would probably not ever happen! (13)",

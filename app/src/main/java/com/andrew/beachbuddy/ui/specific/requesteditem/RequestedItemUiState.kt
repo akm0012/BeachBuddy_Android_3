@@ -17,13 +17,11 @@ class RequestedItemUiState(
         requestedItem.name
     }
 
-    val subTitleText = {
-        val dayAndTime = Instant.ofEpochMilli(requestedItem.createdAtTime)
-            .atZone(ZoneId.systemDefault())
-            .format(DateTimeFormatter.ofPattern("EE h:mm a", Locale.getDefault()))
+    private val dayAndTime = Instant.ofEpochMilli(requestedItem.createdAtTime)
+        .atZone(ZoneId.systemDefault())
+        .format(DateTimeFormatter.ofPattern("EE h:mm a", Locale.getDefault()))
 
-        "${requestedItem.requestorFirstName} • $dayAndTime"
-    }
+    val subTitleText = "${requestedItem.requestorFirstName} • $dayAndTime"
 
     val profilePhotoUrl = "$BASE_ENDPOINT${requestedItem.requestorPhotoUrl}"
 
