@@ -3,7 +3,11 @@ package com.andrew.beachbuddy.ui.screens
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,6 +20,7 @@ import com.andrew.beachbuddy.ui.domainmodels.RequestedItemsDM
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.RequestedItemState
 import com.andrew.beachbuddy.ui.viewmodels.RequestedItemViewModel
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 @Composable
@@ -41,13 +46,23 @@ fun RequestedItemsScreen(
     modifier: Modifier = Modifier
 ) {
 
-    
+    var isGray by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(3000)
+        isGray = true
+    }
+
+    ProfilePhoto(
+        imageUrl = "https://flexible-ox-accurately.ngrok-free.app/StaticFiles/images/andrew.jpeg",
+        isGrayedOut = isGray
+    )
 
 }
 
 
 @DarkLightPreviews
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
 private fun RequestedScreenPreview() {
     BeachBuddyTheme {
@@ -60,7 +75,7 @@ private fun RequestedScreenPreview() {
                             name = "LaCroix",
                             count = 6,
                             isComplete = false
-                        // todo: fill in more
+                            // todo: fill in more
                         )
                     )
                 ),
