@@ -6,6 +6,7 @@ import com.andrew.beachbuddy.database.model.RequestedItem
 import com.andrew.beachbuddy.repository.RequestedItemRepository
 import com.andrew.beachbuddy.ui.domainmodels.RequestedItemsDM
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 data class RequestedItemState(
     val requestedItemsDomainModel: RequestedItemsDM = RequestedItemsDM(),
-    val isLoading: Boolean = false, // todo this was originally only used to stop the PTR animation
+    val isLoading: Boolean = false,
     val errorMessage: String? = null
 )
 
@@ -52,9 +53,21 @@ class RequestedItemViewModel @Inject constructor(
         }
     }
 
+    init {
+        viewModelScope.launch {
+            requestedItemRepository.errorFlow.collect {
+                showError(it.localizedMessage)
+            }
+        }
+    }
+
+
     fun onPullToRefresh() {
         viewModelScope.launch {
             try {
+                _uiState.update {
+                    it.copy(isLoading = true)
+                }
                 requestedItemRepository.refreshRequestedItems()
             } catch (e: Exception) {
                 showError(e.message)

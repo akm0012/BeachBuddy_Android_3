@@ -8,6 +8,8 @@ import com.andrew.beachbuddy.ui.domainmodels.RequestedItemsDM
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.zip
@@ -24,13 +26,12 @@ class RequestedItemRepository @Inject constructor(
     private val userDao: UserDao,
 ) {
 
-    // todo: convert to Shared Flow
-    private val newItemsAddedChannel = Channel<RequestedItem>(Channel.RENDEZVOUS)
-    val newItemsFlow = newItemsAddedChannel.receiveAsFlow()
+    private val _newItemsAddedFlow = MutableSharedFlow<RequestedItem>()
+    val newItemsFlow = _newItemsAddedFlow.asSharedFlow()
 
-    // todo: convert to Shared Flow
-    private val errorChannel = Channel<RequestedItemError>(Channel.RENDEZVOUS)
-    val errorFlow = errorChannel.receiveAsFlow()
+    private val _errorFlow = MutableSharedFlow<RequestedItemError>()
+    val errorFlow = _errorFlow.asSharedFlow()
+
 
     fun getRequestedItemsDomainModel(): Flow<RequestedItemsDM> {
         GlobalScope.launch {
@@ -77,7 +78,7 @@ class RequestedItemRepository @Inject constructor(
                     val itemToAdd = RequestedItem(it)
                     itemsToSave.add(itemToAdd)
                     if (itemToAdd.id == itemIdFromNotification) {
-                        newItemsAddedChannel.send(itemToAdd)
+                        _newItemsAddedFlow.emit(itemToAdd)
                     }
                 } catch (e: Exception) {
                     Timber.w(e, "Unable to process item. Skipping it. $it")
@@ -142,7 +143,7 @@ class RequestedItemRepository @Inject constructor(
 
         Timber.w(cause)
 
-        errorChannel.send(RequestedItemError(errorMessage, cause))
+        _errorFlow.emit(RequestedItemError(errorMessage, cause))
     }
 
     class RequestedItemError(message: String, cause: Throwable?) : Throwable(message, cause)

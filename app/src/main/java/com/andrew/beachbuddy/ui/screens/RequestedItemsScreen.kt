@@ -1,16 +1,21 @@
 package com.andrew.beachbuddy.ui.screens
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,6 +45,7 @@ fun RequestedItemsScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RequestedItemsScreen(
     uiState: RequestedItemState,
@@ -49,55 +55,83 @@ fun RequestedItemsScreen(
 ) {
     val nonCompletedItems = uiState.requestedItemsDomainModel.nonCompletedItems
     val completedItems = uiState.requestedItemsDomainModel.completedItems
+    val context = LocalContext.current
 
-    LazyColumn(
-        modifier = modifier.padding(top = 8.dp)
+    // Todo: Research best way to show errors
+    LaunchedEffect(uiState.errorMessage) {
+        uiState.errorMessage?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    PullToRefreshBox(
+        isRefreshing = uiState.isLoading,
+        onRefresh = onPullToRefresh,
+        modifier = modifier
+            .fillMaxSize()
     ) {
-        val requestedItemsModifier = Modifier.padding(vertical = 5.dp, horizontal = 10.dp)
+        LazyColumn(
+            modifier = Modifier
+                .padding(top = 8.dp)
+        ) {
+            val requestedItemsModifier = Modifier.padding(vertical = 5.dp, horizontal = 10.dp)
 
-        // Show top empty state if all items are completed
-        item {
-            AnimatedVisibility(nonCompletedItems.isEmpty()) {
-                RequestedItemsEmptyState(modifier = Modifier.padding(top = 50.dp))
+            // Show top empty state if all items are completed
+            item {
+                AnimatedVisibility(nonCompletedItems.isEmpty()) {
+                    RequestedItemsEmptyState(modifier = Modifier.padding(top = 50.dp))
+                }
             }
-        }
 
-        // Show the non completed Items
-        items(items = nonCompletedItems, key = { it.id }) { item: RequestedItem ->
-            val requestedItemUiState = RequestedItemUiState(item)
+            // Show the non completed Items
+            items(items = nonCompletedItems, key = { it.id }) { item: RequestedItem ->
+                val requestedItemUiState = RequestedItemUiState(item)
 
-            var isChecked by rememberSaveable { mutableStateOf(false) }
+                var isChecked by rememberSaveable { mutableStateOf(false) }
 
-            RequestedItemComposable(
-                titleText = requestedItemUiState.titleText,
-                subtitleText = requestedItemUiState.subTitleText,
-                profilePhotoUrl = requestedItemUiState.profilePhotoUrl,
-                isCompleted = requestedItemUiState.isComplete,
-                isChecked = isChecked,
-                onCheckChanged = { isChecked = true },
-                modifier = requestedItemsModifier
-            )
-        }
-
-        // Show the completed items divider if there are any completed items
-        item {
-            AnimatedVisibility(completedItems.isNotEmpty()) {
-                CompletedTodayDivider(modifier = Modifier.padding(top = 50.dp, bottom = 20.dp))
+                RequestedItemComposable(
+                    titleText = requestedItemUiState.titleText,
+                    subtitleText = requestedItemUiState.subTitleText,
+                    profilePhotoUrl = requestedItemUiState.profilePhotoUrl,
+                    isCompleted = requestedItemUiState.isComplete,
+                    isChecked = isChecked,
+                    onCheckChanged = {
+                        isChecked = true
+                        onItemMarkedAsComplete(item)
+                    },
+                    modifier = requestedItemsModifier
+                )
             }
-        }
 
-        // Show the completed items
-        items(items = completedItems, key = { it.id }) { item: RequestedItem ->
-            val requestedItemUiState = RequestedItemUiState(item)
-            RequestedItemComposable(
-                titleText = requestedItemUiState.titleText,
-                subtitleText = requestedItemUiState.subTitleText,
-                profilePhotoUrl = requestedItemUiState.profilePhotoUrl,
-                isCompleted = requestedItemUiState.isComplete,
-                isChecked = true,
-                onCheckChanged = { /* Disabled when completed */ },
-                modifier = requestedItemsModifier
-            )
+            // Show the completed items divider if there are any completed items
+            item {
+                AnimatedVisibility(completedItems.isNotEmpty()) {
+                    CompletedTodayDivider(
+                        modifier = Modifier.padding(
+                            top = 50.dp,
+                            bottom = 20.dp
+                        )
+                    )
+                }
+            }
+
+            // Show the completed items
+            items(items = completedItems, key = { it.id }) { item: RequestedItem ->
+                val requestedItemUiState = RequestedItemUiState(item)
+                RequestedItemComposable(
+                    titleText = requestedItemUiState.titleText,
+                    subtitleText = requestedItemUiState.subTitleText,
+                    profilePhotoUrl = requestedItemUiState.profilePhotoUrl,
+                    isCompleted = requestedItemUiState.isComplete,
+                    isChecked = true,
+                    onCheckChanged = { /* Disabled when completed */ },
+                    modifier = requestedItemsModifier.animateItem()
+                )
+            }
         }
     }
 }
