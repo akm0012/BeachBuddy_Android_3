@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.andrew.beachbuddy.database.model.RequestedItem
+import com.andrew.beachbuddy.extensions.toast
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.domainmodels.RequestedItemsDM
 import com.andrew.beachbuddy.ui.specific.requesteditem.CompletedTodayDivider
@@ -61,13 +62,7 @@ fun RequestedItemsScreen(
 
     // Todo: Research best way to show errors
     LaunchedEffect(uiState.errorMessage) {
-        uiState.errorMessage?.let { error ->
-            Toast.makeText(
-                context,
-                error,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        uiState.errorMessage?.toast(context)
     }
 
     PullToRefreshBox(
