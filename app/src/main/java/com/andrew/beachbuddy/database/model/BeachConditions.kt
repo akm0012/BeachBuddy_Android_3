@@ -32,7 +32,7 @@ data class BeachConditions(
         get() = _flagColor.getFlagColorEnum()
 
     constructor(beachConditionsDto: BeachConditionsDto) : this() {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ") // Example: "2021-04-04T13:56:23+00:00"
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX") // Example: "2025-04-26T19:18:51+00:00"
 
         val zonedDateTime = ZonedDateTime
             .parse(beachConditionsDto.updatedTime, formatter)

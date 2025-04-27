@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.andrew.beachbuddy.database.model.RequestedItem
+import com.andrew.beachbuddy.ui.screens.DashboardScreen
 import com.andrew.beachbuddy.ui.screens.RequestedItemsScreen
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.theme.backgroundDark
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
 
 //                                .padding(top = 50.dp))
 
-                    RequestedItemsScreen()
+                    DashboardScreen()
                 }
 
 //                }
