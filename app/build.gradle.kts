@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.android.ksp)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 val appSecretHeader: String = gradleLocalProperties(rootDir, providers).getProperty("SECRET_HEADER")
@@ -53,6 +55,14 @@ android {
 }
 
 dependencies {
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.config.ktx)
+    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.messaging)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     // Room
     implementation(libs.androidx.room.runtime)

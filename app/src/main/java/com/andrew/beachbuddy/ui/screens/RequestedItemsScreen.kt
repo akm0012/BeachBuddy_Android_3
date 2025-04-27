@@ -2,6 +2,7 @@ package com.andrew.beachbuddy.ui.screens
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,6 +28,7 @@ import com.andrew.beachbuddy.ui.specific.requesteditem.RequestedItemComposable
 import com.andrew.beachbuddy.ui.specific.requesteditem.RequestedItemUiState
 import com.andrew.beachbuddy.ui.specific.requesteditem.RequestedItemsEmptyState
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
+import com.andrew.beachbuddy.ui.theme.Dimens.StandardPadding
 import com.andrew.beachbuddy.ui.viewmodels.RequestedItemState
 import com.andrew.beachbuddy.ui.viewmodels.RequestedItemViewModel
 
@@ -75,8 +77,7 @@ fun RequestedItemsScreen(
             .fillMaxSize()
     ) {
         LazyColumn(
-            modifier = Modifier
-                .padding(top = 8.dp)
+            contentPadding = PaddingValues(top = 8.dp, bottom = StandardPadding),
         ) {
             val requestedItemsModifier = Modifier.padding(vertical = 5.dp, horizontal = 10.dp)
 

@@ -37,4 +37,5 @@ build/
 
 # Secret Files
 *ApiKeys*
-*google-services.json*
+app/google-services.json
+beachbuddy-35d79-firebase-adminsdk-vv0wo-a89815ccf9.json
