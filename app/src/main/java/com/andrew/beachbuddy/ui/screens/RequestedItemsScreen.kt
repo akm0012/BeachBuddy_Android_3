@@ -18,8 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.andrew.beachbuddy.database.model.RequestedItem
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.domainmodels.RequestedItemsDM
@@ -35,7 +35,7 @@ import com.andrew.beachbuddy.ui.viewmodels.RequestedItemViewModel
 @Composable
 fun RequestedItemsScreen(
     modifier: Modifier = Modifier,
-    requestedItemViewModel: RequestedItemViewModel = viewModel() // todo: make this Hilt View Model
+    requestedItemViewModel: RequestedItemViewModel = hiltViewModel()
 ) {
     val uiState by requestedItemViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -137,6 +137,8 @@ fun RequestedItemsScreen(
     }
 }
 
+// region Previews
+
 @DarkLightPhonePreviews
 @Composable
 private fun RequestedScreenPreview() {
@@ -230,3 +232,5 @@ val sampleNonCompletedItems = listOf(
         createdAtTime = 1745696496895L
     )
 )
+
+//endregion
