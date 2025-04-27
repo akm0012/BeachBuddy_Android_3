@@ -1,18 +1,20 @@
 package com.andrew.beachbuddy.ui.screens
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.andrew.beachbuddy.database.model.BeachConditions
 import com.andrew.beachbuddy.database.model.CurrentUvInfo
 import com.andrew.beachbuddy.database.model.CurrentWeather
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
+import com.andrew.beachbuddy.ui.specific.currentweather.CurrentWeatherComposable
+import com.andrew.beachbuddy.ui.specific.currentweather.CurrentWeatherUiState
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.DashboardViewModel
 
@@ -24,17 +26,28 @@ fun DashboardScreen(
 
     val uiState by dashboardViewModel.weatherDomainModel.collectAsStateWithLifecycle()
 
-    DashboardScreen(currentWeather = uiState)
+    if (uiState != null) {
+        DashboardScreen(currentWeather = uiState!!)
+    }
 }
 
 @Composable
 fun DashboardScreen(
     modifier: Modifier = Modifier,
-    currentWeather: WeatherDM?
+    currentWeather: WeatherDM
 ) {
 
-    Text(
-        text = "Flag is ${currentWeather?.beachConditions?._flagColor}"
+    val currentWeatherUiState = CurrentWeatherUiState(currentWeather)
+
+    CurrentWeatherComposable(
+        cityName = currentWeatherUiState.getCityName(),
+        description = currentWeatherUiState.getWeatherDescription(),
+        iconUrl = currentWeatherUiState.getIconUrl(),
+        feelsLikeTemp = currentWeatherUiState.getFeelsLikeTemp(),
+        backgroundColor = currentWeatherUiState.getCardBackgroundColor(),
+        textColor = currentWeatherUiState.getTextColor(),
+        secondaryTextColor = currentWeatherUiState.getSecondaryTextColor(),
+        modifier = Modifier.width(230.dp).height(150.dp)
     )
 }
 
@@ -48,7 +61,8 @@ private fun DashboardPreview() {
                 beachConditions = BeachConditions(
                     _flagColor = "GREEN"
                 ),
-                uvInfo = CurrentUvInfo()
+                uvInfo = CurrentUvInfo(),
+                locality = "Siesta Key"
             )
         )
     }

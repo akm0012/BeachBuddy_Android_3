@@ -1,5 +1,6 @@
 package com.andrew.beachbuddy.repository
 
+import android.content.Context
 import com.andrew.beachbuddy.database.dao.BeachConditionsDao
 import com.andrew.beachbuddy.database.dao.UserDao
 import com.andrew.beachbuddy.database.dao.WeatherDao
@@ -14,12 +15,15 @@ import com.andrew.beachbuddy.database.model.User
 import com.andrew.beachbuddy.network.dtos.DashboardDto
 import com.andrew.beachbuddy.network.service.ApiService
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
+import com.andrew.beachbuddy.util.getLocalityFromLatLong
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -38,6 +42,7 @@ class DashboardRepository @Inject constructor(
     private val beachConditionsDao: BeachConditionsDao,
     private val userDao: UserDao,
     private val weatherDao: WeatherDao,
+    @ApplicationContext private val context: Context,
 ) {
 
     val userWithScoresFlow = userDao.getUsersWithScores()
@@ -55,8 +60,12 @@ class DashboardRepository @Inject constructor(
             if (pair.first == null || pair.second == null || currentUvInfo == null) {
                 null
             } else {
-                WeatherDM(pair.first!!, pair.second!!, currentUvInfo)
+                WeatherDM(pair.first!!, pair.second!!, currentUvInfo, null)
             }
+        }.combine(getLocalityFromLatLong(context, SRQ_LAT, SRQ_LON)) { weatherDM, locality ->
+            weatherDM?.copy(
+                locality = locality
+            )
         }
 
     private val _errorFlow = MutableSharedFlow<DashboardRefreshError>()

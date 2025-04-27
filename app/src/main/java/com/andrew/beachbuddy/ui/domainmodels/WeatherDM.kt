@@ -9,4 +9,5 @@ data class WeatherDM(
     val currentWeather: CurrentWeather,
     val beachConditions: BeachConditions,
     val uvInfo: CurrentUvInfo,
+    val locality: String?
 )
