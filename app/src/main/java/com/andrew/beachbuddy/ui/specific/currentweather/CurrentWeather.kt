@@ -72,7 +72,7 @@ fun CurrentWeatherComposable(
         ),
         modifier = modifier
     ) {
-        Box(modifier = modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize()) {
 
             Column(modifier = Modifier.padding(start = StandardPadding, top = StandardPadding)) {
 
