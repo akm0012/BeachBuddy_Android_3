@@ -22,4 +22,6 @@
     <color name="uv_index_view_background">@color/space_gray</color>
     <color name="dashboard_background_color">@color/black</color>
 
+    <color name="card_background_color">@color/space_gray</color>
+
 </resources>

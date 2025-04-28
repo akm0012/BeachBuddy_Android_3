@@ -27,9 +27,33 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.andrew.beachbuddy.R
+import com.andrew.beachbuddy.database.model.CurrentWeather
 import com.andrew.beachbuddy.extensions.previewPlaceholder
+import com.andrew.beachbuddy.ui.common.BeachBuddyCard
+import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.theme.Dimens.StandardPadding
+
+
+@Composable
+fun CurrentWeatherComposable(
+    currentWeather: WeatherDM,
+    modifier: Modifier = Modifier
+) {
+
+    val currentWeatherUiState = CurrentWeatherUiState(currentWeather)
+
+    CurrentWeatherComposable(
+        cityName = currentWeatherUiState.getCityName(),
+        description = currentWeatherUiState.getWeatherDescription(),
+        iconUrl = currentWeatherUiState.getIconUrl(),
+        feelsLikeTemp = currentWeatherUiState.getFeelsLikeTemp(),
+        backgroundColor = currentWeatherUiState.getCardBackgroundColor(),
+        textColor = currentWeatherUiState.getTextColor(),
+        secondaryTextColor = currentWeatherUiState.getSecondaryTextColor(),
+        modifier = modifier
+    )
+}
 
 @Composable
 fun CurrentWeatherComposable(
@@ -42,9 +66,7 @@ fun CurrentWeatherComposable(
     @ColorRes secondaryTextColor: Int,
     modifier: Modifier = Modifier
 ) {
-
-    Card(
-        shape = MaterialTheme.shapes.extraSmall,
+    BeachBuddyCard(
         colors = CardDefaults.cardColors(
             containerColor = colorResource(backgroundColor)
         ),
