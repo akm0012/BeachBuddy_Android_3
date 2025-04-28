@@ -20,7 +20,7 @@ import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 
 @Composable
 fun BeachConditionComposable(
-    weatherDM: WeatherDM,
+    weatherDM: WeatherDM?,
     modifier: Modifier = Modifier
 ) {
     BeachBuddyCard(modifier = modifier.fillMaxHeight()) {
@@ -71,5 +71,13 @@ private fun BeachConditionComposablePreview() {
                 locality = null
             )
         )
+    }
+}
+
+@DarkLightPhonePreviews
+@Composable
+private fun BeachConditionComposableEmptyStatePreview() {
+    BeachBuddyTheme {
+        BeachConditionComposable(weatherDM = null)
     }
 }

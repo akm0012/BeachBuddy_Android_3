@@ -9,17 +9,17 @@ import kotlin.math.roundToInt
 
 
 class CurrentWeatherUiState(
-    weather: WeatherDM,
+    weather: WeatherDM?,
 ) {
 
-    private val currentWeather = weather.currentWeather
-    private val beachConditions = weather.beachConditions
-    private val locality = weather.locality
+    private val currentWeather = weather?.currentWeather
+    private val beachConditions = weather?.beachConditions
+    private val locality = weather?.locality
 
     fun getCityName(): String {
 
         // Special case, if Beach is Closed
-        if (beachConditions.flagColor == FlagColor.DOUBLE_RED) {
+        if (beachConditions?.flagColor == FlagColor.DOUBLE_RED) {
             return "BEACH CLOSED!"
         }
 
@@ -27,22 +27,30 @@ class CurrentWeatherUiState(
     }
 
     fun getWeatherDescription(): String {
-        return currentWeather.mainDescription
+        return currentWeather?.mainDescription ?: "N/A"
     }
 
     fun getIconUrl(): String {
-        return "https://openweathermap.org/img/wn/${currentWeather.iconTemplate}@2x.png"
+        return if (currentWeather == null) {
+            ""
+        } else {
+            "https://openweathermap.org/img/wn/${currentWeather.iconTemplate}@2x.png"
+        }
     }
 
     fun getFeelsLikeTemp(): String {
-        return "${currentWeather.feelsLikeTemp.roundToInt()}°"
+        return if (currentWeather == null) {
+            "N/A"
+        } else {
+            "${currentWeather.feelsLikeTemp.roundToInt()}°"
+        }
     }
 
     @ColorRes
     fun getCardBackgroundColor(): Int {
 
-        return when (beachConditions.flagColor) {
-            FlagColor.GREEN -> R.color.flag_green
+        return when (beachConditions?.flagColor) {
+            FlagColor.GREEN, null -> R.color.flag_green
             FlagColor.YELLOW -> R.color.flag_yellow
             FlagColor.PURPLE -> R.color.flag_purple
             FlagColor.RED, FlagColor.DOUBLE_RED -> R.color.flag_red
@@ -52,8 +60,8 @@ class CurrentWeatherUiState(
 
     @ColorRes
     fun getTextColor(): Int {
-        return when (beachConditions.flagColor) {
-            FlagColor.GREEN -> R.color.white
+        return when (beachConditions?.flagColor) {
+            FlagColor.GREEN, null -> R.color.white
             FlagColor.YELLOW -> R.color.dark_gray
             FlagColor.PURPLE -> R.color.white
             FlagColor.RED, FlagColor.DOUBLE_RED -> R.color.white
@@ -63,8 +71,8 @@ class CurrentWeatherUiState(
 
     @ColorRes
     fun getSecondaryTextColor(): Int {
-        return when (beachConditions.flagColor) {
-            FlagColor.GREEN -> R.color.white
+        return when (beachConditions?.flagColor) {
+            FlagColor.GREEN, null -> R.color.white
             FlagColor.YELLOW -> R.color.dark_gray
             FlagColor.PURPLE -> R.color.white
             FlagColor.RED, FlagColor.DOUBLE_RED -> R.color.white

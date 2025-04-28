@@ -37,7 +37,7 @@ import com.andrew.beachbuddy.ui.theme.Dimens.StandardPadding
 
 @Composable
 fun CurrentWeatherComposable(
-    currentWeather: WeatherDM,
+    currentWeather: WeatherDM?,
     modifier: Modifier = Modifier
 ) {
 
@@ -138,6 +138,18 @@ private fun CurrentWeatherPreview() {
             textColor = R.color.white,
             secondaryTextColor = R.color.white,
             modifier = Modifier
+                .width(230.dp)
+                .height(150.dp)
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CurrentWeatherEmptyStatePreview() {
+    BeachBuddyTheme {
+        CurrentWeatherComposable(
+            currentWeather = null, modifier = Modifier
                 .width(230.dp)
                 .height(150.dp)
         )

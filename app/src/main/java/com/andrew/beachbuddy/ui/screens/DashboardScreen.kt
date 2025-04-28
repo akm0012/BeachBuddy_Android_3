@@ -15,6 +15,7 @@ import com.andrew.beachbuddy.ui.sampleWeatherDM
 import com.andrew.beachbuddy.ui.specific.beachconditions.BeachConditionComposable
 import com.andrew.beachbuddy.ui.specific.currentweather.CurrentWeatherComposable
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
+import com.andrew.beachbuddy.ui.viewmodels.DashboardUiState
 import com.andrew.beachbuddy.ui.viewmodels.DashboardViewModel
 
 @Composable
@@ -23,30 +24,28 @@ fun DashboardScreen(
     dashboardViewModel: DashboardViewModel = hiltViewModel()
 ) {
 
-    val uiState by dashboardViewModel.weatherDomainModel.collectAsStateWithLifecycle()
+    val uiState by dashboardViewModel.dashboardUiState.collectAsStateWithLifecycle()
 
-    if (uiState != null) {
-        DashboardScreen(currentWeather = uiState!!)
-    }
+    DashboardScreen(dashboardUiState = uiState)
 }
 
 @Composable
 fun DashboardScreen(
     modifier: Modifier = Modifier,
-    currentWeather: WeatherDM
+    dashboardUiState: DashboardUiState,
 ) {
 
     Column {
 
         CurrentWeatherComposable(
-            currentWeather = currentWeather,
+            currentWeather = dashboardUiState.weatherDM,
             modifier = Modifier
                 .width(230.dp)
                 .height(150.dp)
         )
 
         BeachConditionComposable(
-            weatherDM = currentWeather
+            weatherDM = dashboardUiState.weatherDM
         )
 
     }
@@ -56,6 +55,6 @@ fun DashboardScreen(
 @Composable
 private fun DashboardPreview() {
     BeachBuddyTheme {
-        DashboardScreen(currentWeather = sampleWeatherDM)
+        DashboardScreen(dashboardUiState = DashboardUiState(weatherDM = sampleWeatherDM))
     }
 }

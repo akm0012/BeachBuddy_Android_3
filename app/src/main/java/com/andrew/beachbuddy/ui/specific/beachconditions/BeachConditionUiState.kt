@@ -14,12 +14,12 @@ import java.util.Locale
 
 
 class BeachConditionUiState(
-    private val itemType: BeachConditionItemType,
-    weatherDM: WeatherDM,
+    itemType: BeachConditionItemType,
+    weatherDM: WeatherDM?,
 ) {
 
-    private val weatherInfo = weatherDM.currentWeather
-    private val beachConditions = weatherDM.beachConditions
+    private val weatherInfo = weatherDM?.currentWeather
+    private val beachConditions = weatherDM?.beachConditions
 
     @DrawableRes
     val iconDrawable = when (itemType) {
@@ -43,22 +43,30 @@ class BeachConditionUiState(
     val content = when (itemType) {
 
         CLOUD_COVERAGE_PERCENT -> {
-            "${weatherInfo.cloudPercent}%"
+            if (weatherInfo == null) {
+                "N/A"
+            } else {
+                "${weatherInfo.cloudPercent}%"
+            }
         }
 
         WIND -> {
-            "${weatherInfo.windSpeed.toInt()} mph ${weatherInfo.windDeg}°"
+            if (weatherInfo == null) {
+                "N/A"
+            } else {
+                "${weatherInfo.windSpeed.toInt()} mph ${weatherInfo.windDeg}°"
+            }
         }
 
-        RESPIRATORY_IRRITATION -> beachConditions.respiratoryIrritation.capitalizeWords()
+        RESPIRATORY_IRRITATION -> beachConditions?.respiratoryIrritation?.capitalizeWords()
             ?: "N/A"
 
         SURF -> {
 
-            val surfOverview = beachConditions.surfCondition.capitalizeWords()
+            val surfOverview = beachConditions?.surfCondition?.capitalizeWords()
                 ?: "N/A"
 
-            var surfHeight = beachConditions.surfHeight.capitalizeWords()
+            var surfHeight = beachConditions?.surfHeight?.capitalizeWords()
                 ?: ""
 
             if (!TextUtils.isEmpty(surfHeight)) {
@@ -68,11 +76,11 @@ class BeachConditionUiState(
             "$surfOverview $surfHeight".trim()
         }
 
-        JELLY_FISH -> beachConditions.jellyFish.capitalizeWords()
+        JELLY_FISH -> beachConditions?.jellyFish?.capitalizeWords()
             ?: "N/A"
 
         TIME_UPDATED -> {
-            beachConditions.timeUpdated.toFormattedTime()
+            beachConditions?.timeUpdated?.toFormattedTime() ?: "N/A"
         }
     }
 
