@@ -1,6 +1,7 @@
 package com.andrew.beachbuddy.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -10,10 +11,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.andrew.beachbuddy.ui.DarkLightTabletPreviews
-import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
+import com.andrew.beachbuddy.ui.sampleDailyWeatherInfoList
+import com.andrew.beachbuddy.ui.sampleHourlyWeatherInfoList
 import com.andrew.beachbuddy.ui.sampleWeatherDM
 import com.andrew.beachbuddy.ui.specific.beachconditions.BeachConditionComposable
 import com.andrew.beachbuddy.ui.specific.currentweather.CurrentWeatherComposable
+import com.andrew.beachbuddy.ui.specific.weatherforcast.DailyWeatherForecastCarousel
+import com.andrew.beachbuddy.ui.specific.weatherforcast.HourlyWeatherForecastCarousel
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.DashboardUiState
 import com.andrew.beachbuddy.ui.viewmodels.DashboardViewModel
@@ -35,19 +39,38 @@ fun DashboardScreen(
     dashboardUiState: DashboardUiState,
 ) {
 
-    Column {
+    Row {
+        Column {
+            CurrentWeatherComposable(
+                currentWeather = dashboardUiState.weatherDM,
+                modifier = Modifier
+                    .width(230.dp)
+                    .height(150.dp)
+            )
 
-        CurrentWeatherComposable(
-            currentWeather = dashboardUiState.weatherDM,
-            modifier = Modifier
-                .width(230.dp)
-                .height(150.dp)
-        )
+            BeachConditionComposable(
+                weatherDM = dashboardUiState.weatherDM,
+                modifier = Modifier.width(230.dp)
+            )
+        }
 
-        BeachConditionComposable(
-            weatherDM = dashboardUiState.weatherDM
-        )
+        Column {
+            if (dashboardUiState.hourlyWeather != null) {
+                HourlyWeatherForecastCarousel(
+                    hourlyWeatherInfo = dashboardUiState.hourlyWeather,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            if (dashboardUiState.dailyWeather != null) {
+                DailyWeatherForecastCarousel(
+                    dailyWeatherInfo = dashboardUiState.dailyWeather,
+                    modifier = Modifier.weight(1f)
 
+                )
+            }
+
+
+        }
     }
 }
 
@@ -55,6 +78,12 @@ fun DashboardScreen(
 @Composable
 private fun DashboardPreview() {
     BeachBuddyTheme {
-        DashboardScreen(dashboardUiState = DashboardUiState(weatherDM = sampleWeatherDM))
+        DashboardScreen(
+            dashboardUiState = DashboardUiState(
+                weatherDM = sampleWeatherDM,
+                dailyWeather = sampleDailyWeatherInfoList,
+                hourlyWeather = sampleHourlyWeatherInfoList,
+            )
+        )
     }
 }

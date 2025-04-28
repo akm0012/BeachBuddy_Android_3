@@ -2,6 +2,7 @@ package com.andrew.beachbuddy.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.andrew.beachbuddy.database.model.DailyWeatherInfo
 import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
 import com.andrew.beachbuddy.repository.DashboardRepository
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
@@ -20,6 +21,7 @@ import javax.inject.Inject
 data class DashboardUiState(
     val weatherDM: WeatherDM? = null,
     val hourlyWeather: List<HourlyWeatherInfo>? = null,
+    val dailyWeather: List<DailyWeatherInfo>? = null,
 )
 
 
@@ -49,12 +51,14 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             combine(
                 dashboardRepository.weatherDomainModelFlow,
-                dashboardRepository.hourlyWeatherFlow
-            ) { weatherDM, hourlyWeather ->
+                dashboardRepository.hourlyWeatherFlow,
+                dashboardRepository.dailyWeatherFlow
+            ) { weatherDM, hourlyWeather, dailyWeather ->
                 // Create a new DashboardUiState with the latest data
                 DashboardUiState(
                     weatherDM = weatherDM,
-                    hourlyWeather = hourlyWeather
+                    hourlyWeather = hourlyWeather,
+                    dailyWeather = dailyWeather,
                 )
             }
                 .stateIn(

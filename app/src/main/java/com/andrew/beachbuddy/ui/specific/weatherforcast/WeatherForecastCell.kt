@@ -3,6 +3,7 @@ package com.andrew.beachbuddy.ui.specific.weatherforcast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -17,45 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.andrew.beachbuddy.database.model.DailyWeatherInfo
-import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
 import com.andrew.beachbuddy.extensions.previewPlaceholder
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
-
-@Composable
-fun DailyWeatherForecastCell(
-    dailyWeatherInfo: DailyWeatherInfo,
-    modifier: Modifier = Modifier
-) {
-    val dailyWeatherUiState = DailyWeatherUiState(dailyWeatherInfo)
-
-    WeatherForecastCell(
-        topTitle = dailyWeatherUiState.formattedTime,
-        imageUrl = dailyWeatherUiState.iconUrl,
-        mainBody = dailyWeatherUiState.feelsLike,
-        topSubtitle = dailyWeatherUiState.rain,
-        bottomSubtitle = dailyWeatherUiState.summary,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun HourlyWeatherForecastCell(
-    hourlyWeatherInfo: HourlyWeatherInfo,
-    modifier: Modifier = Modifier
-) {
-    val dailyWeatherUiState = HourlyWeatherUiState(hourlyWeatherInfo)
-
-    WeatherForecastCell(
-        topTitle = dailyWeatherUiState.formattedTime,
-        imageUrl = dailyWeatherUiState.iconUrl,
-        mainBody = dailyWeatherUiState.feelsLike,
-        topSubtitle = dailyWeatherUiState.humidity,
-        bottomSubtitle = dailyWeatherUiState.summary,
-        modifier = modifier
-    )
-}
 
 @Composable
 fun WeatherForecastCell(
@@ -70,14 +35,14 @@ fun WeatherForecastCell(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxHeight()
+            .width(100.dp)
             .background(color = MaterialTheme.colorScheme.background)
     ) {
-
         Text(
             text = topTitle,
             color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleMedium
         )
 
         AsyncImage(
@@ -94,7 +59,8 @@ fun WeatherForecastCell(
         )
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Text(
@@ -112,7 +78,7 @@ fun WeatherForecastCell(
             Text(
                 text = bottomSubtitle,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleSmall
             )
         }
     }
