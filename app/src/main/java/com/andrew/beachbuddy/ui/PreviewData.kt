@@ -5,6 +5,9 @@ import com.andrew.beachbuddy.database.model.CurrentUvInfo
 import com.andrew.beachbuddy.database.model.CurrentWeather
 import com.andrew.beachbuddy.database.model.DailyWeatherInfo
 import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
+import com.andrew.beachbuddy.database.model.Score
+import com.andrew.beachbuddy.database.model.User
+import com.andrew.beachbuddy.database.model.UserWithScores
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
 
 val sampleWeatherDM = WeatherDM(
@@ -186,5 +189,103 @@ val sampleHourlyWeatherInfoList = listOf(
         mainDescription = "Clouds",
         secondaryDescription = "Overcast",
         iconTemplate = "04d"
+    )
+)
+
+val sampleUserWithScoresList = listOf(
+    UserWithScores(
+        user = User(
+            userId = "user_1",
+            firstName = "Andrew",
+            lastName = "Marshall",
+            fullName = "Andrew Marshall",
+            skinType = 2,
+            phoneNumber = "123-456-7890",
+            photoUrl = "https://example.com/photos/alice.jpg",
+            totalScore = 150
+        ),
+        scores = listOf(
+            Score(scoreId = "score_1a", name = "Beach Challenge", winCount = 5, userId = "user_1"),
+            Score(scoreId = "score_1b", name = "Sun Trivia", winCount = 3, userId = "user_1")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_2",
+            firstName = "Bob",
+            lastName = "Johnson",
+            fullName = "Bob Johnson",
+            skinType = 3,
+            phoneNumber = "234-567-8901",
+            photoUrl = "https://example.com/photos/bob.jpg",
+            totalScore = 200
+        ),
+        scores = listOf(
+            Score(scoreId = "score_2a", name = "Beach Challenge", winCount = 8, userId = "user_2"),
+            Score(scoreId = "score_2b", name = "Surf Quiz", winCount = 2, userId = "user_2")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_3",
+            firstName = "Carol",
+            lastName = "Williams",
+            fullName = "Carol Williams",
+            skinType = 1,
+            phoneNumber = "345-678-9012",
+            photoUrl = "https://example.com/photos/carol.jpg",
+            totalScore = 90
+        ),
+        scores = listOf(
+            Score(scoreId = "score_3a", name = "Sun Trivia", winCount = 4, userId = "user_3")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_4",
+            firstName = "David",
+            lastName = "Brown",
+            fullName = "David Brown",
+            skinType = 4,
+            phoneNumber = "456-789-0123",
+            photoUrl = "https://example.com/photos/david.jpg",
+            totalScore = 120
+        ),
+        scores = listOf(
+            Score(scoreId = "score_4a", name = "Beach Challenge", winCount = 6, userId = "user_4"),
+            Score(scoreId = "score_4b", name = "Surf Quiz", winCount = 1, userId = "user_4"),
+            Score(scoreId = "score_4c", name = "Sun Trivia", winCount = 2, userId = "user_4")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_5",
+            firstName = "Eve",
+            lastName = "Davis",
+            fullName = "Eve Davis",
+            skinType = 2,
+            phoneNumber = "567-890-1234",
+            photoUrl = "https://example.com/photos/eve.jpg",
+            totalScore = 180
+        ),
+        scores = listOf(
+            Score(scoreId = "score_5a", name = "Beach Challenge", winCount = 7, userId = "user_5")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_6",
+            firstName = "Frank",
+            lastName = "Miller",
+            fullName = "Frank Miller",
+            skinType = 5,
+            phoneNumber = "678-901-2345",
+            photoUrl = "https://example.com/photos/frank.jpg",
+            totalScore = 300
+        ),
+        scores = listOf(
+            Score(scoreId = "score_6a", name = "Surf Quiz", winCount = 10, userId = "user_6"),
+            Score(scoreId = "score_6b", name = "Beach Challenge", winCount = 5, userId = "user_6")
+        )
     )
 )

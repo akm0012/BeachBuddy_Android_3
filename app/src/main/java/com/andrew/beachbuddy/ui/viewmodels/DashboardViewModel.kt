@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andrew.beachbuddy.database.model.DailyWeatherInfo
 import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
+import com.andrew.beachbuddy.database.model.UserWithScores
 import com.andrew.beachbuddy.repository.DashboardRepository
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,7 @@ data class DashboardUiState(
     val weatherDM: WeatherDM? = null,
     val hourlyWeather: List<HourlyWeatherInfo>? = null,
     val dailyWeather: List<DailyWeatherInfo>? = null,
+    val usersWithScores: List<UserWithScores> = emptyList(),
 )
 
 
@@ -52,13 +54,15 @@ class DashboardViewModel @Inject constructor(
             combine(
                 dashboardRepository.weatherDomainModelFlow,
                 dashboardRepository.hourlyWeatherFlow,
-                dashboardRepository.dailyWeatherFlow
-            ) { weatherDM, hourlyWeather, dailyWeather ->
+                dashboardRepository.dailyWeatherFlow,
+                dashboardRepository.userWithScoresFlow,
+            ) { weatherDM, hourlyWeather, dailyWeather, usersWithScores ->
                 // Create a new DashboardUiState with the latest data
                 DashboardUiState(
                     weatherDM = weatherDM,
                     hourlyWeather = hourlyWeather,
                     dailyWeather = dailyWeather,
+                    usersWithScores = usersWithScores
                 )
             }
                 .stateIn(

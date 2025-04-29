@@ -23,8 +23,6 @@ data class User(
     var photoUrl: String = "",
 
     var totalScore: Int = 0,
-
-//    var scores: RealmList<Score> = RealmList()
 ) {
     constructor(userDto: UserDto) : this() {
         userId = userDto.id
