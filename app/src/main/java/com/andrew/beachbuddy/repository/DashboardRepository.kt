@@ -94,7 +94,7 @@ class DashboardRepository @Inject constructor(
     suspend fun refreshDashboard() {
         Timber.i("Starting to refresh dashboard data...")
 
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
 
             try {
                 Timber.v("Starting API Call to get Dashboard Data...")

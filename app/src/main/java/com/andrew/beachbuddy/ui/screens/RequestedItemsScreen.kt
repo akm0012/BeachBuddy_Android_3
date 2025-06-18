@@ -1,6 +1,5 @@
 package com.andrew.beachbuddy.ui.screens
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -99,7 +98,7 @@ fun RequestedItemsScreen(
                         isChecked = true
                         onItemMarkedAsComplete(item)
                     },
-                    modifier = requestedItemsModifier
+                    modifier = requestedItemsModifier.animateItem()
                 )
             }
 

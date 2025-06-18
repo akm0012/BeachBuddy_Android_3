@@ -1,5 +1,6 @@
 package com.andrew.beachbuddy.ui.specific.weatherforcast
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import com.andrew.beachbuddy.database.model.DailyWeatherInfo
 import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.DarkLightTabletPreviews
+import com.andrew.beachbuddy.ui.common.BeachBuddyCard
 import com.andrew.beachbuddy.ui.sampleDailyWeatherInfoList
 import com.andrew.beachbuddy.ui.sampleHourlyWeatherInfoList
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
@@ -45,15 +47,17 @@ fun WeatherForecastCarousel(
     weatherData: List<WeatherUiState>,
     modifier: Modifier = Modifier
 ) {
-    LazyRow(modifier = modifier) {
-        items(items = weatherData, key = { it.id }) { weatherUiState ->
-            WeatherForecastCell(
-                topTitle = weatherUiState.topTitle,
-                imageUrl = weatherUiState.imageUrl,
-                mainBody = weatherUiState.mainBody,
-                topSubtitle = weatherUiState.topSubtitle,
-                bottomSubtitle = weatherUiState.bottomSubtitle
-            )
+    BeachBuddyCard (modifier = modifier) {
+        LazyRow {
+            items(items = weatherData, key = { it.id }) { weatherUiState ->
+                WeatherForecastCell(
+                    topTitle = weatherUiState.topTitle,
+                    imageUrl = weatherUiState.imageUrl,
+                    mainBody = weatherUiState.mainBody,
+                    topSubtitle = weatherUiState.topSubtitle,
+                    bottomSubtitle = weatherUiState.bottomSubtitle
+                )
+            }
         }
     }
 }

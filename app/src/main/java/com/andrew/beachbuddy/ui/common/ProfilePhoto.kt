@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,7 @@ fun ProfilePhoto(
             .scale(Scale.FILL)
             .addHeader("AppToken", BuildConfig.APP_SECRET_HEADER)
             .build(),
+        contentScale = ContentScale.Crop,
         contentDescription = null,
         colorFilter = ColorFilter.colorMatrix(colorMatrix),
         modifier = modifier

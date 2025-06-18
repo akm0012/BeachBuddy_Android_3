@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -37,7 +36,6 @@ fun WeatherForecastCell(
         modifier = modifier
             .fillMaxHeight()
             .width(100.dp)
-            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Text(
             text = topTitle,
