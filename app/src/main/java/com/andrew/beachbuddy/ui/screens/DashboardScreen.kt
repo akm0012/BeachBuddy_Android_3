@@ -48,7 +48,7 @@ fun DashboardScreen(
 
     val uiState by dashboardViewModel.dashboardUiState.collectAsStateWithLifecycle()
 
-    DashboardScreen(dashboardUiState = uiState)
+    DashboardScreen(dashboardUiState = uiState, modifier = modifier)
 }
 
 @Composable
