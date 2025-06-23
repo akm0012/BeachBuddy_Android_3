@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -42,19 +43,27 @@ import timber.log.Timber
 
 @Composable
 fun DashboardScreen(
+    onNightModeClicked: () -> Unit,
+    onSettingsClicked: () -> Unit,
     modifier: Modifier = Modifier,
-    dashboardViewModel: DashboardViewModel = hiltViewModel()
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
 ) {
 
     val uiState by dashboardViewModel.dashboardUiState.collectAsStateWithLifecycle()
 
-    DashboardScreen(dashboardUiState = uiState, modifier = modifier)
+    DashboardScreen(
+        dashboardUiState = uiState,
+        onNightModeClicked = onNightModeClicked,
+        onSettingsClicked = onSettingsClicked,
+        modifier = modifier)
 }
 
 @Composable
 fun DashboardScreen(
-    modifier: Modifier = Modifier,
     dashboardUiState: DashboardUiState,
+    onNightModeClicked: () -> Unit,
+    onSettingsClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.background(colorResource(R.color.dashboard_background_color))) {
 
@@ -110,11 +119,11 @@ fun DashboardScreen(
 
             LeaderBoard(
                 usersWithScores = dashboardUiState.usersWithScores,
-                onNightModeClicked = { },
-                onSettingsClicked = { },
+                onNightModeClicked = onNightModeClicked,
+                onSettingsClicked = onSettingsClicked,
                 onUserClicked = { user ->
                     Timber.d("User clicked: $user")
-                }, modifier = Modifier.width(270.dp)
+                }, modifier = Modifier.width(270.dp).fillMaxHeight()
             )
         }
     }
@@ -125,6 +134,8 @@ fun DashboardScreen(
 private fun DashboardPreview() {
     BeachBuddyTheme {
         DashboardScreen(
+            onSettingsClicked = { },
+            onNightModeClicked = { },
             dashboardUiState = DashboardUiState(
                 weatherDM = sampleWeatherDM,
                 dailyWeather = sampleDailyWeatherInfoList,

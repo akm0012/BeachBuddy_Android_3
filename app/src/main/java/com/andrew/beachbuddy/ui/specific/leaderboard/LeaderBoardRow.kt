@@ -5,17 +5,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.andrew.beachbuddy.database.model.UserWithScores
 import com.andrew.beachbuddy.ui.DarkLightTabletPreviews
@@ -26,6 +27,7 @@ import com.andrew.beachbuddy.ui.theme.Dimens.StandardPadding
 @Composable
 fun LeaderBoardRow(
     userWithScores: UserWithScores,
+    rowHeight: Dp,
     onUserClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -37,6 +39,7 @@ fun LeaderBoardRow(
         subtitleText = leaderBoardRowUiState.getSubtitle(),
         totalScoreText = leaderBoardRowUiState.getScore(),
         profilePhotoUrl = leaderBoardRowUiState.profilePhotoUrl,
+        rowHeight = rowHeight,
         onUserClicked = onUserClicked,
         modifier = modifier
     )
@@ -49,25 +52,30 @@ fun LeaderBoardRow(
     totalScoreText: String,
     profilePhotoUrl: String,
     onUserClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    rowHeight: Dp = 79.dp,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .fillMaxWidth()
+            .height(rowHeight)
             .clickable { onUserClicked() }) {
 
         Spacer(Modifier.width(StandardPadding))
 
         ProfilePhoto(
             imageUrl = profilePhotoUrl,
-            modifier = Modifier.size(79.dp)
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(vertical = 4.dp)
+                .aspectRatio(1f)
         )
 
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .padding(horizontal = StandardPadding)
-                .height(79.dp)
         ) {
             Text(
                 text = name,

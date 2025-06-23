@@ -20,10 +20,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.andrew.beachbuddy.extensions.toast
 import com.andrew.beachbuddy.ui.screens.DashboardScreen
 import com.andrew.beachbuddy.ui.screens.RequestedItemsScreen
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
@@ -49,7 +51,6 @@ fun BeachBuddyApp() {
         var selectedDestinationRoute by rememberSaveable {
             mutableStateOf(startDestination.route)
         }
-
 
         Scaffold(
             bottomBar = {
@@ -77,6 +78,8 @@ fun BeachBuddyApp() {
             modifier = Modifier.fillMaxSize()
         ) { innerPadding ->
 
+            val context = LocalContext.current
+
             NavHost(
                 navController = navController,
                 startDestination = Dashboard.route,
@@ -84,7 +87,10 @@ fun BeachBuddyApp() {
             ) {
 
                 composable(route = Dashboard.route) {
-                    DashboardScreen()
+                    DashboardScreen(
+                        onNightModeClicked = { "Night mode clicked".toast(context) },
+                        onSettingsClicked = { navController.navigate(route = ConfigureGames.route) }
+                    )
                 }
 
                 composable(route = BeachList.route) {
