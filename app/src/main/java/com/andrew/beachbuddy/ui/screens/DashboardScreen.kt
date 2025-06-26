@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.andrew.beachbuddy.R
 import com.andrew.beachbuddy.ui.DarkLightTabletPreviews
+import com.andrew.beachbuddy.ui.common.BeachBuddyCard
 import com.andrew.beachbuddy.ui.sampleDailyWeatherInfoList
 import com.andrew.beachbuddy.ui.sampleHourlyWeatherInfoList
 import com.andrew.beachbuddy.ui.sampleUserWithScoresList
@@ -32,6 +33,7 @@ import com.andrew.beachbuddy.ui.sampleWeatherDM
 import com.andrew.beachbuddy.ui.specific.beachconditions.BeachConditionComposable
 import com.andrew.beachbuddy.ui.specific.currentweather.CurrentWeatherComposable
 import com.andrew.beachbuddy.ui.specific.leaderboard.LeaderBoard
+import com.andrew.beachbuddy.ui.specific.sunset.SunsetTimerComposable
 import com.andrew.beachbuddy.ui.specific.weatherforcast.DailyWeatherForecastCarousel
 import com.andrew.beachbuddy.ui.specific.weatherforcast.HourlyWeatherForecastCarousel
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
@@ -55,7 +57,8 @@ fun DashboardScreen(
         dashboardUiState = uiState,
         onNightModeClicked = onNightModeClicked,
         onSettingsClicked = onSettingsClicked,
-        modifier = modifier)
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -87,19 +90,19 @@ fun DashboardScreen(
             ) {
 
                 Row {
-                    Box(
+
+                    SunsetTimerComposable(
                         modifier = Modifier
-                            .background(Color.Magenta)
-                            .weight(1f)
-                            .height(100.dp)
+//                            .background(Color.Magenta)
+//                            .weight(1f)
+                            .height(150.dp)
                     )
 
-                    Box(
+                    BeachBuddyCard(
                         modifier = Modifier
-                            .background(Color.Green)
-                            .height(100.dp)
+                            .height(150.dp)
                             .weight(1f)
-                    )
+                    ) { Box(Modifier.fillMaxSize().background(Color.Green)) }
                 }
 
                 if (dashboardUiState.hourlyWeather != null) {
@@ -123,7 +126,9 @@ fun DashboardScreen(
                 onSettingsClicked = onSettingsClicked,
                 onUserClicked = { user ->
                     Timber.d("User clicked: $user")
-                }, modifier = Modifier.width(270.dp).fillMaxHeight()
+                }, modifier = Modifier
+                    .width(270.dp)
+                    .fillMaxHeight()
             )
         }
     }
