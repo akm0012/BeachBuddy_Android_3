@@ -9,6 +9,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,6 +21,7 @@ import com.andrew.beachbuddy.database.model.Score
 import com.andrew.beachbuddy.database.model.UserWithScores
 import com.andrew.beachbuddy.ui.DarkLightTabletPreviews
 import com.andrew.beachbuddy.ui.mockUserWithScoresList
+import com.andrew.beachbuddy.ui.specific.managegames.AddGameDialog
 import com.andrew.beachbuddy.ui.specific.managegames.ManageAllUserScoresGrid
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.ScoreManagementViewModel
@@ -48,6 +52,20 @@ fun ConfigureGamesScreen(
     modifier: Modifier = Modifier
 ) {
 
+    var showAddGameDialog by remember { mutableStateOf(false) }
+
+    if (showAddGameDialog) {
+        AddGameDialog(
+            onGameNameEntered = { gameName ->
+                onGameAdded(gameName)
+                showAddGameDialog = false
+            },
+            onDismissRequest = {
+                showAddGameDialog = false
+            }
+        )
+    }
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -55,7 +73,7 @@ fun ConfigureGamesScreen(
         Spacer(Modifier.height(32.dp))
 
         Button(
-            onClick = { },
+            onClick = { showAddGameDialog = true },
             modifier = Modifier.padding(bottom = 8.dp)
         ) { Text(text = "Add Game") }
 
