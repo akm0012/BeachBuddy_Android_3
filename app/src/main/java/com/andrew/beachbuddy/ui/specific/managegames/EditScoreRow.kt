@@ -34,18 +34,20 @@ fun EditScoreRow(
             .padding(horizontal = StandardPadding)
     ) {
         // Decrement Button
+        val mediumFontSize = TextUnit(17f, TextUnitType.Sp)
+
         Button(
             onClick = onDecrementClicked,
             modifier = Modifier
         ) {
-            Text("-")
+            Text("-", fontSize = mediumFontSize)
         }
 
         // Game Name
         Text(
             text = gameName,
             color = colorResource(R.color.dashboard_text_dark),
-            fontSize = TextUnit(16f, TextUnitType.Sp),
+            fontSize = mediumFontSize,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
@@ -66,7 +68,7 @@ fun EditScoreRow(
             onClick = onIncrementClicked,
             modifier = Modifier
         ) {
-            Text("+")
+            Text("+", fontSize = mediumFontSize)
         }
     }
 }
