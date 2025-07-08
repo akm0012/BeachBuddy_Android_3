@@ -60,7 +60,7 @@ fun EditScoreRow(
             text = score.toString(),
             color = colorResource(R.color.colorAccent),
             fontSize = TextUnit(22f, TextUnitType.Sp),
-            modifier = Modifier.padding(end = 10.dp)
+            modifier = Modifier.padding(end = StandardPadding)
         )
 
         // Increment Button

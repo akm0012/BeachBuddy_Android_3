@@ -1,16 +1,24 @@
 package com.andrew.beachbuddy.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.andrew.beachbuddy.database.model.Score
 import com.andrew.beachbuddy.database.model.UserWithScores
 import com.andrew.beachbuddy.ui.DarkLightTabletPreviews
 import com.andrew.beachbuddy.ui.mockUserWithScoresList
+import com.andrew.beachbuddy.ui.specific.managegames.ManageAllUserScoresGrid
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.ScoreManagementViewModel
 
@@ -37,8 +45,26 @@ fun ConfigureGamesScreen(
     onGameAdded: (String) -> Unit,
     onScoreIncremented: (Score) -> Unit,
     onScoreDecremented: (Score) -> Unit,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
 
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(Modifier.height(32.dp))
+
+        Button(
+            onClick = { },
+            modifier = Modifier.padding(bottom = 8.dp)
+        ) { Text(text = "Add Game") }
+
+        ManageAllUserScoresGrid(
+            userWithScores = usersWithScores,
+            onIncrementClicked = onScoreIncremented,
+            onDecrementClicked = onScoreDecremented
+        )
+    }
 
 }
 
@@ -50,7 +76,7 @@ private fun ConfigureGamesScreenPreview() {
             usersWithScores = mockUserWithScoresList,
             onGameAdded = {},
             onScoreIncremented = {},
-            onScoreDecremented =  {}
+            onScoreDecremented = {}
         )
     }
 }

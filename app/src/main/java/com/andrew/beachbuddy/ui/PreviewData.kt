@@ -300,11 +300,12 @@ val mockUserWithScoresList = listOf(
             skinType = 2,
             phoneNumber = "123-456-7890",
             photoUrl = "https://example.com/photos/alice.jpg",
-            totalScore = 120
+            totalScore = 18
         ),
         scores = listOf(
-            Score(scoreId = "score_1a", name = "Beach Volleyball", winCount = 3, userId = "user_1"),
-            Score(scoreId = "score_1b", name = "Sun Trivia", winCount = 2, userId = "user_1")
+            Score(scoreId = "score_1a", name = "Beach Volleyball", winCount = 8, userId = "user_1"),
+            Score(scoreId = "score_1b", name = "Sun Trivia", winCount = 6, userId = "user_1"),
+            Score(scoreId = "score_1c", name = "Surf Quiz", winCount = 4, userId = "user_1")
         )
     ),
     UserWithScores(
@@ -316,10 +317,12 @@ val mockUserWithScoresList = listOf(
             skinType = 4,
             phoneNumber = "234-567-8901",
             photoUrl = "https://example.com/photos/bob.jpg",
-            totalScore = 90
+            totalScore = 14
         ),
         scores = listOf(
-            Score(scoreId = "score_2a", name = "Surf Quiz", winCount = 4, userId = "user_2")
+            Score(scoreId = "score_2a", name = "Beach Volleyball", winCount = 4, userId = "user_2"),
+            Score(scoreId = "score_2b", name = "Sun Trivia", winCount = 5, userId = "user_2"),
+            Score(scoreId = "score_2c", name = "Surf Quiz", winCount = 5, userId = "user_2")
         )
     ),
     UserWithScores(
@@ -331,11 +334,12 @@ val mockUserWithScoresList = listOf(
             skinType = 1,
             phoneNumber = "345-678-9012",
             photoUrl = "https://example.com/photos/carol.jpg",
-            totalScore = 160
+            totalScore = 12
         ),
         scores = listOf(
-            Score(scoreId = "score_3a", name = "Beach Clean-Up", winCount = 5, userId = "user_3"),
-            Score(scoreId = "score_3b", name = "Sandcastle Contest", winCount = 3, userId = "user_3")
+            Score(scoreId = "score_3a", name = "Beach Volleyball", winCount = 5, userId = "user_3"),
+            Score(scoreId = "score_3b", name = "Sun Trivia", winCount = 2, userId = "user_3"),
+            Score(scoreId = "score_3c", name = "Surf Quiz", winCount = 5, userId = "user_3")
         )
     ),
     UserWithScores(
@@ -347,10 +351,12 @@ val mockUserWithScoresList = listOf(
             skinType = 3,
             phoneNumber = "456-789-0123",
             photoUrl = "https://example.com/photos/david.jpg",
-            totalScore = 70
+            totalScore = 9
         ),
         scores = listOf(
-            Score(scoreId = "score_4a", name = "Beach Bingo", winCount = 2, userId = "user_4")
+            Score(scoreId = "score_4a", name = "Beach Volleyball", winCount = 3, userId = "user_4"),
+            Score(scoreId = "score_4b", name = "Sun Trivia", winCount = 1, userId = "user_4"),
+            Score(scoreId = "score_4c", name = "Surf Quiz", winCount = 5, userId = "user_4")
         )
     ),
     UserWithScores(
@@ -362,11 +368,12 @@ val mockUserWithScoresList = listOf(
             skinType = 5,
             phoneNumber = "567-890-1234",
             photoUrl = "https://example.com/photos/eve.jpg",
-            totalScore = 200
+            totalScore = 20
         ),
         scores = listOf(
-            Score(scoreId = "score_5a", name = "Sun Trivia", winCount = 6, userId = "user_5"),
-            Score(scoreId = "score_5b", name = "Surf Quiz", winCount = 4, userId = "user_5")
+            Score(scoreId = "score_5a", name = "Beach Volleyball", winCount = 7, userId = "user_5"),
+            Score(scoreId = "score_5b", name = "Sun Trivia", winCount = 6, userId = "user_5"),
+            Score(scoreId = "score_5c", name = "Surf Quiz", winCount = 7, userId = "user_5")
         )
     ),
     UserWithScores(
@@ -378,10 +385,12 @@ val mockUserWithScoresList = listOf(
             skinType = 2,
             phoneNumber = "678-901-2345",
             photoUrl = "https://example.com/photos/frank.jpg",
-            totalScore = 50
+            totalScore = 11
         ),
         scores = listOf(
-            Score(scoreId = "score_6a", name = "Sandcastle Contest", winCount = 1, userId = "user_6")
+            Score(scoreId = "score_6a", name = "Beach Volleyball", winCount = 1, userId = "user_6"),
+            Score(scoreId = "score_6b", name = "Sun Trivia", winCount = 5, userId = "user_6"),
+            Score(scoreId = "score_6c", name = "Surf Quiz", winCount = 5, userId = "user_6")
         )
     )
 )
