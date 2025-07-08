@@ -289,3 +289,99 @@ val sampleUserWithScoresList = listOf(
         )
     )
 )
+
+val mockUserWithScoresList = listOf(
+    UserWithScores(
+        user = User(
+            userId = "user_1",
+            firstName = "Alice",
+            lastName = "Smith",
+            fullName = "Alice Smith",
+            skinType = 2,
+            phoneNumber = "123-456-7890",
+            photoUrl = "https://example.com/photos/alice.jpg",
+            totalScore = 120
+        ),
+        scores = listOf(
+            Score(scoreId = "score_1a", name = "Beach Volleyball", winCount = 3, userId = "user_1"),
+            Score(scoreId = "score_1b", name = "Sun Trivia", winCount = 2, userId = "user_1")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_2",
+            firstName = "Bob",
+            lastName = "Johnson",
+            fullName = "Bob Johnson",
+            skinType = 4,
+            phoneNumber = "234-567-8901",
+            photoUrl = "https://example.com/photos/bob.jpg",
+            totalScore = 90
+        ),
+        scores = listOf(
+            Score(scoreId = "score_2a", name = "Surf Quiz", winCount = 4, userId = "user_2")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_3",
+            firstName = "Carol",
+            lastName = "Nguyen",
+            fullName = "Carol Nguyen",
+            skinType = 1,
+            phoneNumber = "345-678-9012",
+            photoUrl = "https://example.com/photos/carol.jpg",
+            totalScore = 160
+        ),
+        scores = listOf(
+            Score(scoreId = "score_3a", name = "Beach Clean-Up", winCount = 5, userId = "user_3"),
+            Score(scoreId = "score_3b", name = "Sandcastle Contest", winCount = 3, userId = "user_3")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_4",
+            firstName = "David",
+            lastName = "Lee",
+            fullName = "David Lee",
+            skinType = 3,
+            phoneNumber = "456-789-0123",
+            photoUrl = "https://example.com/photos/david.jpg",
+            totalScore = 70
+        ),
+        scores = listOf(
+            Score(scoreId = "score_4a", name = "Beach Bingo", winCount = 2, userId = "user_4")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_5",
+            firstName = "Eve",
+            lastName = "Martinez",
+            fullName = "Eve Martinez",
+            skinType = 5,
+            phoneNumber = "567-890-1234",
+            photoUrl = "https://example.com/photos/eve.jpg",
+            totalScore = 200
+        ),
+        scores = listOf(
+            Score(scoreId = "score_5a", name = "Sun Trivia", winCount = 6, userId = "user_5"),
+            Score(scoreId = "score_5b", name = "Surf Quiz", winCount = 4, userId = "user_5")
+        )
+    ),
+    UserWithScores(
+        user = User(
+            userId = "user_6",
+            firstName = "Frank",
+            lastName = "Miller",
+            fullName = "Frank Miller",
+            skinType = 2,
+            phoneNumber = "678-901-2345",
+            photoUrl = "https://example.com/photos/frank.jpg",
+            totalScore = 50
+        ),
+        scores = listOf(
+            Score(scoreId = "score_6a", name = "Sandcastle Contest", winCount = 1, userId = "user_6")
+        )
+    )
+)

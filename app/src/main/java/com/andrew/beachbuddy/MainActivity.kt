@@ -26,6 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.andrew.beachbuddy.extensions.toast
+import com.andrew.beachbuddy.ui.screens.ConfigureGamesScreen
 import com.andrew.beachbuddy.ui.screens.DashboardScreen
 import com.andrew.beachbuddy.ui.screens.RequestedItemsScreen
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
@@ -98,12 +99,7 @@ fun BeachBuddyApp() {
                 }
 
                 composable(route = ConfigureGames.route) {
-                    Box(
-                        Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Configure Games TODO!")
-                    }
+                    ConfigureGamesScreen()
                 }
             }
         }
