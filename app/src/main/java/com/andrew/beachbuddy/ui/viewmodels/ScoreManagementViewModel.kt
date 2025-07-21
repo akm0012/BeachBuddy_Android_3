@@ -3,6 +3,7 @@ package com.andrew.beachbuddy.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andrew.beachbuddy.database.model.Score
+import com.andrew.beachbuddy.inject.BASE_ENDPOINT
 import com.andrew.beachbuddy.repository.DashboardRepository
 import com.andrew.beachbuddy.repository.ScoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,9 @@ class ScoreManagementViewModel @Inject constructor(
     val usersWithScores = dashboardRepository.userWithScoresFlow.map {
         it.map { userWithScores ->
             userWithScores.copy(
+                user = userWithScores.user.copy(
+                    photoUrl = "$BASE_ENDPOINT${userWithScores.user.photoUrl}"
+                ),
                 scores = userWithScores.scores.sortedBy { score -> score.name }
             )
         }

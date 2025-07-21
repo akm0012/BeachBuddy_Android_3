@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.andrew.beachbuddy.database.model.Score
 import com.andrew.beachbuddy.database.model.UserWithScores
+import com.andrew.beachbuddy.inject.BASE_ENDPOINT
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.mockUserWithScoresList
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
