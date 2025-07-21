@@ -6,9 +6,12 @@ import com.andrew.beachbuddy.database.model.CurrentWeather
 import com.andrew.beachbuddy.database.model.DailyWeatherInfo
 import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
 import com.andrew.beachbuddy.database.model.Score
+import com.andrew.beachbuddy.database.model.SunsetInfo
 import com.andrew.beachbuddy.database.model.User
 import com.andrew.beachbuddy.database.model.UserWithScores
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 val sampleWeatherDM = WeatherDM(
     currentWeather = CurrentWeather(
@@ -394,3 +397,15 @@ val mockUserWithScoresList = listOf(
         )
     )
 )
+
+val sampleSunsetInfo = SunsetInfo(
+    id = "SunsetInfoPrimaryKey",
+    sunrise = ZonedDateTime.of(2025, 7, 17, 6, 30, 0, 0, ZoneId.of("America/New_York")).toInstant().toEpochMilli(),
+    sunset = ZonedDateTime.of(2025, 7, 17, 20, 40, 0, 0, ZoneId.of("America/New_York")).toInstant().toEpochMilli(),
+    sunriseNextDay = ZonedDateTime.of(2025, 7, 18, 6, 31, 0, 0, ZoneId.of("America/New_York")).toInstant().toEpochMilli(),
+    sunsetPrevDay = ZonedDateTime.of(2025, 7, 16, 20, 39, 0, 0, ZoneId.of("America/New_York")).toInstant().toEpochMilli()
+)
+
+val sampleCurrentTime = ZonedDateTime.of(2025, 7, 17, 13, 34, 0, 0, ZoneId.of("America/New_York"))
+    .toInstant()
+    .toEpochMilli()

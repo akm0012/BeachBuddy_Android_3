@@ -50,17 +50,6 @@ class DashboardRepository @Inject constructor(
 ) {
 
     val userWithScoresFlow = userDao.getUsersWithScores()
-//        .map { userWithScoresList ->
-//
-//        userWithScoresList.sortedWith(
-//            compareByDescending<UserWithScores> { it.maxScore() }
-//                .thenBy { it.user.firstName.lowercase() }
-//        ).map { userWithScores ->
-//            userWithScores.copy(
-//                scores = userWithScores.scores.sortedBy { it.name.lowercase() }
-//            )
-//        }
-//    }
     val beachConditionsFlow = beachConditionsDao.getBeachConditions()
     val currentWeatherFlow = weatherDao.getCurrentWeather()
     val currentUvInfoFlow = weatherDao.getCurrentUvInfo()

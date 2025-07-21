@@ -8,24 +8,19 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.andrew.beachbuddy.R
+import com.andrew.beachbuddy.enums.FlagColor
 import com.andrew.beachbuddy.ui.DarkLightTabletPreviews
 import com.andrew.beachbuddy.ui.common.BeachBuddyCard
+import com.andrew.beachbuddy.ui.sampleSunsetInfo
 import com.andrew.beachbuddy.ui.sampleDailyWeatherInfoList
 import com.andrew.beachbuddy.ui.sampleHourlyWeatherInfoList
 import com.andrew.beachbuddy.ui.sampleUserWithScoresList
@@ -39,8 +34,6 @@ import com.andrew.beachbuddy.ui.specific.weatherforcast.HourlyWeatherForecastCar
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.DashboardUiState
 import com.andrew.beachbuddy.ui.viewmodels.DashboardViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
@@ -68,7 +61,13 @@ fun DashboardScreen(
     onSettingsClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.background(colorResource(R.color.dashboard_background_color))) {
+
+    val backgroundColor = when (dashboardUiState.weatherDM?.beachConditions?.flagColor) {
+        FlagColor.DOUBLE_RED -> colorResource(R.color.flag_red)
+        else -> colorResource(R.color.dashboard_background_color)
+    }
+
+    Box(modifier = modifier.background(backgroundColor)) {
 
         Row {
             Column {
@@ -90,11 +89,9 @@ fun DashboardScreen(
             ) {
 
                 Row {
-
                     SunsetTimerComposable(
+                        sunsetInfo = dashboardUiState.sunSetInfo,
                         modifier = Modifier
-//                            .background(Color.Magenta)
-//                            .weight(1f)
                             .height(150.dp)
                     )
 
@@ -102,7 +99,9 @@ fun DashboardScreen(
                         modifier = Modifier
                             .height(150.dp)
                             .weight(1f)
-                    ) { Box(Modifier.fillMaxSize().background(Color.Green)) }
+                    ) { Box(Modifier
+                        .fillMaxSize()
+                        .background(Color.Green)) }
                 }
 
                 if (dashboardUiState.hourlyWeather != null) {
@@ -146,6 +145,7 @@ private fun DashboardPreview() {
                 dailyWeather = sampleDailyWeatherInfoList,
                 hourlyWeather = sampleHourlyWeatherInfoList,
                 usersWithScores = sampleUserWithScoresList,
+                sunSetInfo = null
             )
         )
     }

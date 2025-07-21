@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.andrew.beachbuddy.database.model.DailyWeatherInfo
 import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
+import com.andrew.beachbuddy.database.model.SunsetInfo
 import com.andrew.beachbuddy.database.model.UserWithScores
 import com.andrew.beachbuddy.database.model.maxScore
 import com.andrew.beachbuddy.repository.DashboardRepository
@@ -25,6 +26,7 @@ data class DashboardUiState(
     val hourlyWeather: List<HourlyWeatherInfo>? = null,
     val dailyWeather: List<DailyWeatherInfo>? = null,
     val usersWithScores: List<UserWithScores> = emptyList(),
+    val sunSetInfo: SunsetInfo? = null
 )
 
 
@@ -32,20 +34,6 @@ data class DashboardUiState(
 class DashboardViewModel @Inject constructor(
     private val dashboardRepository: DashboardRepository,
 ) : ViewModel() {
-
-    @Deprecated("This is the old way I was doing this. Now it all happens in the init")
-    val weatherDomainModel: StateFlow<WeatherDM?> =
-        dashboardRepository.weatherDomainModelFlow
-            .onStart {
-                // todo: move this to a better spot as this updated all the things, not just this
-//                dashboardRepository.refreshDashboard()
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = null
-            )
-
 
     private val _dashboardUiState = MutableStateFlow(DashboardUiState())
     val dashboardUiState = _dashboardUiState.asStateFlow()
@@ -57,7 +45,8 @@ class DashboardViewModel @Inject constructor(
                 dashboardRepository.hourlyWeatherFlow,
                 dashboardRepository.dailyWeatherFlow,
                 dashboardRepository.userWithScoresFlow,
-            ) { weatherDM, hourlyWeather, dailyWeather, usersWithScores ->
+                dashboardRepository.sunsetInfoFlow,
+            ) { weatherDM, hourlyWeather, dailyWeather, usersWithScores, sunsetInfo ->
 
                 // Sort the users with scores by score, then name.
                 val sortedUsersWithScores = usersWithScores.sortedWith(
@@ -70,17 +59,16 @@ class DashboardViewModel @Inject constructor(
                     weatherDM = weatherDM,
                     hourlyWeather = hourlyWeather,
                     dailyWeather = dailyWeather,
-                    usersWithScores = sortedUsersWithScores
+                    usersWithScores = sortedUsersWithScores,
+                    sunSetInfo = sunsetInfo
                 )
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = _dashboardUiState.value
+            ).collect { newState ->
+                _dashboardUiState.value = newState
             }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = _dashboardUiState.value
-                )
-                .collect { newState ->
-                    _dashboardUiState.value = newState
-                }
         }
 
         viewModelScope.launch {

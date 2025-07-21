@@ -1,5 +1,6 @@
 package com.andrew.beachbuddy.ui.specific.sunset
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -18,23 +24,57 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.andrew.beachbuddy.R
+import com.andrew.beachbuddy.database.model.SunsetInfo
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
 import com.andrew.beachbuddy.ui.common.BeachBuddyCard
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun SunsetTimerComposable(
-    state: Int, //TODO
-    modifier: Modifier = Modifier
+    sunsetInfo: SunsetInfo?,
+    modifier: Modifier = Modifier,
 ) {
+    // If no sunset info, show a loading screen
+    if (sunsetInfo == null) {
+        SunsetTimerComposable(modifier = modifier)
+        return
+    }
 
+    var currentTimeMillis by remember { mutableLongStateOf(System.currentTimeMillis()) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            currentTimeMillis = System.currentTimeMillis()
+            delay(30 * 1_000) // Update every 30 seconds
+        }
+    }
+
+    val state = SunsetCountdownUiState(
+        currentTime = currentTimeMillis,
+        sunrise = sunsetInfo.sunrise,
+        sunset = sunsetInfo.sunset,
+        sunsetPrevDay = sunsetInfo.sunsetPrevDay,
+        sunriseNextDay = sunsetInfo.sunriseNextDay
+    )
+
+    SunsetTimerComposable(
+        topTitleText = state.getTimerText(),
+        middleSubTitleText = state.getSubtitleTime(),
+        bottomSubTitleText = state.getBottomLabel(),
+        progress = state.getProgress(),
+        modifier = modifier
+    )
 }
 
 @Composable
 fun SunsetTimerComposable(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    topTitleText: String = "--h --m",
+    middleSubTitleText: String = "TBD",
+    bottomSubTitleText: String = "Loading",
+    @FloatRange(from = 0.0, to = 1.0) progress: Float = 1.0f,
 ) {
-
     BeachBuddyCard(modifier = modifier) {
 
         ConstraintLayout(
@@ -43,8 +83,8 @@ fun SunsetTimerComposable(
                 .fillMaxHeight()
                 .aspectRatio(1f) // Keeps it square
         ) {
-
             val (circularProgress,
+                circularProgressTrack,
                 sunsetCountDownText,
                 sunsetTimeText,
                 bottomTextLabel) = createRefs()
@@ -63,9 +103,28 @@ fun SunsetTimerComposable(
 
         Equation = DesiredProgress * (75/100) = ActualProgress
          */
-            val desiredProgress = 1f
-            val actualProgress = desiredProgress * (.75f / 1f)
+            val fullTrackMax = 0.75f
+            val desiredProgress = progress
+            val actualProgress = desiredProgress * (fullTrackMax / 1f)
 
+            // The background color of the track
+            CircularProgressIndicator(
+                progress = { fullTrackMax },
+                color = colorResource(R.color.dashboard_background_color),
+                trackColor = Color.Transparent,
+                strokeWidth = 10.dp,
+                modifier = Modifier
+                    .constrainAs(circularProgressTrack) {
+                        top.linkTo(circularProgress.top)
+                        start.linkTo(circularProgress.start)
+                        end.linkTo(circularProgress.end)
+                        bottom.linkTo(circularProgress.bottom)
+                    }
+                    .rotate(225.0f)
+                    .fillMaxSize()
+            )
+
+            // The actual progress
             CircularProgressIndicator(
                 progress = { actualProgress },
                 color = colorResource(R.color.colorAccent),
@@ -83,7 +142,7 @@ fun SunsetTimerComposable(
             )
 
             Text(
-                text = "11h 19m",
+                text = topTitleText,
                 fontSize = TextUnit(22f, TextUnitType.Sp),
                 color = colorResource(R.color.dashboard_text_dark),
                 modifier = Modifier.constrainAs(sunsetCountDownText) {
@@ -95,7 +154,7 @@ fun SunsetTimerComposable(
             )
 
             Text(
-                text = "8:52 pm",
+                text = middleSubTitleText,
                 fontSize = TextUnit(12f, TextUnitType.Sp),
                 color = colorResource(R.color.dashboard_text),
                 modifier = Modifier.constrainAs(sunsetTimeText) {
@@ -107,7 +166,7 @@ fun SunsetTimerComposable(
             )
 
             Text(
-                text = "Sunset",
+                text = bottomSubTitleText,
                 fontSize = TextUnit(13f, TextUnitType.Sp),
                 color = colorResource(R.color.dashboard_text_dark),
                 modifier = Modifier
@@ -117,7 +176,6 @@ fun SunsetTimerComposable(
                         bottom.linkTo(circularProgress.bottom)
                     }
                     .padding(bottom = 7.dp)
-
             )
         }
     }
@@ -127,6 +185,22 @@ fun SunsetTimerComposable(
 @Composable
 private fun SunsetTimerPreview() {
     BeachBuddyTheme {
-        SunsetTimerComposable(modifier = Modifier.height(150.dp))
+        SunsetTimerComposable(
+            topTitleText = "11h 19m",
+            middleSubTitleText = "8:52 pm",
+            bottomSubTitleText = "Sunset",
+            progress = 0.75f,
+            modifier = Modifier.height(150.dp)
+        )
+    }
+}
+
+@DarkLightPhonePreviews
+@Composable
+private fun SunsetTimerPreviewLoading() {
+    BeachBuddyTheme {
+        SunsetTimerComposable(
+            modifier = Modifier.height(150.dp)
+        )
     }
 }
