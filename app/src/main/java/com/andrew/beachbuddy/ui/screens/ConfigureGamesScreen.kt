@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +38,8 @@ fun ConfigureGamesScreen(
         usersWithScores = usersWithScores,
         onGameAdded = scoreManagementViewModel::onAddNewGame,
         onScoreIncremented = scoreManagementViewModel::onScoreIncremented,
-        onScoreDecremented = scoreManagementViewModel::onScoreDecremented
+        onScoreDecremented = scoreManagementViewModel::onScoreDecremented,
+        modifier = modifier
     )
 
 }
@@ -52,7 +53,7 @@ fun ConfigureGamesScreen(
     modifier: Modifier = Modifier
 ) {
 
-    var showAddGameDialog by remember { mutableStateOf(false) }
+    var showAddGameDialog by rememberSaveable { mutableStateOf(false) }
 
     if (showAddGameDialog) {
         AddGameDialog(
@@ -83,7 +84,6 @@ fun ConfigureGamesScreen(
             onDecrementClicked = onScoreDecremented
         )
     }
-
 }
 
 @DarkLightTabletPreviews

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.andrew.beachbuddy.database.model.DailyWeatherInfo
 import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
 import com.andrew.beachbuddy.database.model.UserWithScores
+import com.andrew.beachbuddy.database.model.maxScore
 import com.andrew.beachbuddy.repository.DashboardRepository
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,12 +58,19 @@ class DashboardViewModel @Inject constructor(
                 dashboardRepository.dailyWeatherFlow,
                 dashboardRepository.userWithScoresFlow,
             ) { weatherDM, hourlyWeather, dailyWeather, usersWithScores ->
+
+                // Sort the users with scores by score, then name.
+                val sortedUsersWithScores = usersWithScores.sortedWith(
+                    compareByDescending<UserWithScores> { it.maxScore() }
+                        .thenBy { it.user.firstName.lowercase() }
+                )
+
                 // Create a new DashboardUiState with the latest data
                 DashboardUiState(
                     weatherDM = weatherDM,
                     hourlyWeather = hourlyWeather,
                     dailyWeather = dailyWeather,
-                    usersWithScores = usersWithScores
+                    usersWithScores = sortedUsersWithScores
                 )
             }
                 .stateIn(

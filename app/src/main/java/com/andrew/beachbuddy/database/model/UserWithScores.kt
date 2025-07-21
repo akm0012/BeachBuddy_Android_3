@@ -13,3 +13,7 @@ data class UserWithScores(
     )
     val scores: List<Score>
 )
+
+fun UserWithScores.maxScore(): Int {
+    return this.scores.maxOf { it.winCount }
+}

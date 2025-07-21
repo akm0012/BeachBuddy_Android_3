@@ -10,6 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,12 +26,17 @@ class ScoreManagementViewModel @Inject constructor(
     private val _errorFlow = MutableSharedFlow<ScoreManagementError>()
     val errorFlow = _errorFlow.asSharedFlow()
 
-    val usersWithScores = dashboardRepository.userWithScoresFlow
-        .stateIn(
-            scope = viewModelScope,
-            initialValue = emptyList(),
-            started = SharingStarted.WhileSubscribed(5000)
-        )
+    val usersWithScores = dashboardRepository.userWithScoresFlow.map {
+        it.map { userWithScores ->
+            userWithScores.copy(
+                scores = userWithScores.scores.sortedBy { score -> score.name }
+            )
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        initialValue = emptyList(),
+        started = SharingStarted.WhileSubscribed(5000)
+    )
 
     fun onAddNewGame(gameName: String) {
         launchSimpleCall { scoreRepository.addGame(gameName) }

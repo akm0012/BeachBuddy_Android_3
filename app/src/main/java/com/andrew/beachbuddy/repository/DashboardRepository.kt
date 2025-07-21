@@ -1,6 +1,7 @@
 package com.andrew.beachbuddy.repository
 
 import android.content.Context
+import androidx.compose.ui.text.toLowerCase
 import com.andrew.beachbuddy.database.dao.BeachConditionsDao
 import com.andrew.beachbuddy.database.dao.UserDao
 import com.andrew.beachbuddy.database.dao.WeatherDao
@@ -12,6 +13,8 @@ import com.andrew.beachbuddy.database.model.HourlyWeatherInfo
 import com.andrew.beachbuddy.database.model.Score
 import com.andrew.beachbuddy.database.model.SunsetInfo
 import com.andrew.beachbuddy.database.model.User
+import com.andrew.beachbuddy.database.model.UserWithScores
+import com.andrew.beachbuddy.database.model.maxScore
 import com.andrew.beachbuddy.network.dtos.DashboardDto
 import com.andrew.beachbuddy.network.service.ApiService
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
@@ -24,6 +27,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -46,6 +50,17 @@ class DashboardRepository @Inject constructor(
 ) {
 
     val userWithScoresFlow = userDao.getUsersWithScores()
+//        .map { userWithScoresList ->
+//
+//        userWithScoresList.sortedWith(
+//            compareByDescending<UserWithScores> { it.maxScore() }
+//                .thenBy { it.user.firstName.lowercase() }
+//        ).map { userWithScores ->
+//            userWithScores.copy(
+//                scores = userWithScores.scores.sortedBy { it.name.lowercase() }
+//            )
+//        }
+//    }
     val beachConditionsFlow = beachConditionsDao.getBeachConditions()
     val currentWeatherFlow = weatherDao.getCurrentWeather()
     val currentUvInfoFlow = weatherDao.getCurrentUvInfo()
@@ -256,6 +271,15 @@ class DashboardRepository @Inject constructor(
                 }
             }
         }
+
+        if (scoresToSave.isEmpty()) {
+            Timber.w("Scores are empty. They must of all been deleted.")
+            Timber.d("Deleting Scores...")
+            userDao.deleteAllScores()
+            Timber.d("Done deleting Scores.")
+            return
+        }
+
         Timber.v("Done processing Scores.")
         Timber.d("Saving Scores...")
         userDao.insertScores(scoresToSave)
