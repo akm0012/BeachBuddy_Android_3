@@ -10,4 +10,6 @@
     <string name="requested_items_empty_state_message">Nothing to do here… the beach is calling!</string>
     <string name="completed_today">Completed Today</string>
     <string name="leaderboard">Leaderboard</string>
+    <string name="time_to_burn">Time to Burn</string>
+
 </resources>

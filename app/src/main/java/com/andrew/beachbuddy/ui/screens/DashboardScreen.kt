@@ -1,5 +1,6 @@
 package com.andrew.beachbuddy.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,9 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,11 +33,13 @@ import com.andrew.beachbuddy.ui.specific.beachconditions.BeachConditionComposabl
 import com.andrew.beachbuddy.ui.specific.currentweather.CurrentWeatherComposable
 import com.andrew.beachbuddy.ui.specific.leaderboard.LeaderBoard
 import com.andrew.beachbuddy.ui.specific.sunset.SunsetTimerComposable
+import com.andrew.beachbuddy.ui.specific.uvindex.CurrentUvDashboardTile
 import com.andrew.beachbuddy.ui.specific.weatherforcast.DailyWeatherForecastCarousel
 import com.andrew.beachbuddy.ui.specific.weatherforcast.HourlyWeatherForecastCarousel
 import com.andrew.beachbuddy.ui.theme.BeachBuddyTheme
 import com.andrew.beachbuddy.ui.viewmodels.DashboardUiState
 import com.andrew.beachbuddy.ui.viewmodels.DashboardViewModel
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
@@ -99,9 +105,21 @@ fun DashboardScreen(
                         modifier = Modifier
                             .height(150.dp)
                             .weight(1f)
-                    ) { Box(Modifier
-                        .fillMaxSize()
-                        .background(Color.Green)) }
+                    ) {
+
+                        val scope = rememberCoroutineScope()
+                        val context = LocalContext.current
+
+                        CurrentUvDashboardTile(
+                            weatherDM = dashboardUiState.weatherDM,
+                            usersWithScores = dashboardUiState.usersWithScores,
+                            onUserClicked = {
+                                scope.launch {
+                                    Toast.makeText(context, "Bam: ${it.firstName}", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        )
+                    }
                 }
 
                 if (dashboardUiState.hourlyWeather != null) {

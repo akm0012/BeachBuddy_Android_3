@@ -15,5 +15,8 @@ data class UserWithScores(
 )
 
 fun UserWithScores.maxScore(): Int {
+    if (this.scores.isNullOrEmpty()) {
+        return 0
+    }
     return this.scores.maxOf { it.winCount }
 }

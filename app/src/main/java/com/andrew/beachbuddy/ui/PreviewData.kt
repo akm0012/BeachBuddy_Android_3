@@ -43,7 +43,7 @@ val sampleWeatherDM = WeatherDM(
     ),
     uvInfo = CurrentUvInfo(
         id = "CurrentUvInfoPrimaryKey",
-        currentUv = 4.3374,
+        currentUv = 8.3374,
         currentUvTime = "2025-04-28T14:22:08.520Z",
         maxUv = 10.1634,
         maxUvTime = "2025-04-28T17:28:49.777Z",

@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.andrew.beachbuddy.R
 
@@ -17,13 +18,16 @@ fun BeachBuddyCard(
     colors: CardColors = CardDefaults.cardColors(
         containerColor = colorResource(R.color.card_background_color)
     ),
+    padding: Dp = 5.dp,
+    onClick: () -> Unit = { },
     content: @Composable () -> Unit
 ) =
     Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = colors,
         shape = MaterialTheme.shapes.extraSmall,
-        modifier = modifier.padding(5.dp)
+        onClick = onClick,
+        modifier = modifier.padding(padding)
     ) {
         content()
     }
