@@ -1,20 +1,28 @@
 package com.andrew.beachbuddy.ui.specific.uvindex
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.andrew.beachbuddy.R
 import com.andrew.beachbuddy.database.model.User
@@ -52,10 +60,8 @@ fun TimeToBurnProfileTile(
     modifier: Modifier = Modifier,
     onTileClicked: () -> Unit = { },
 ) {
-    BeachBuddyCard(
-        colors = CardDefaults.cardColors(
-            containerColor = cardContainerColor
-        ),
+    TimeToBurnCard(
+        baseColor = cardContainerColor,
         onClick = onTileClicked,
         padding = 0.dp,
         modifier = modifier
@@ -161,3 +167,56 @@ private fun TimeToBurnProfileTilePreviewAllColors() {
     }
 
 }
+
+@Composable
+fun TimeToBurnCard(
+    modifier: Modifier = Modifier,
+    baseColor: Color,
+    padding: Dp = 5.dp,
+    onClick: () -> Unit = {},
+    content: @Composable () -> Unit
+) {
+    val gradientBrush = Brush.verticalGradient(
+        colors = listOf(
+            baseColor.copy(alpha = 0.1f),
+            baseColor
+        )
+    )
+
+    // If white background, just use the normal BeachBuddyCard
+    if (baseColor.toArgb() == Color.White.toArgb()) {
+
+        BeachBuddyCard(
+            onClick = onClick,
+            padding = 0.dp,
+            modifier = modifier
+        ) {
+            content()
+        }
+
+    } else {
+
+        Card(
+            colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+            shape = MaterialTheme.shapes.extraSmall,
+            onClick = onClick,
+            modifier = modifier
+                .padding(padding)
+                .border(
+                    width = 1.dp,
+                    color = baseColor.copy(alpha = 0.4f), // or any suitable border color
+                    shape = MaterialTheme.shapes.extraSmall
+                )
+        ) {
+
+            // Gradient background using Box (Card containers can't have gradients)
+            Box(
+                modifier = Modifier
+                    .background(brush = gradientBrush, shape = MaterialTheme.shapes.extraSmall)
+            ) {
+                content()
+            }
+        }
+    }
+}
+

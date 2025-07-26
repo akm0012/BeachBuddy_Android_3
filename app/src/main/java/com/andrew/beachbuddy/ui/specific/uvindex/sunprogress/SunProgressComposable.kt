@@ -1,15 +1,20 @@
-package com.andrew.beachbuddy.ui.specific.sunprogress
+package com.andrew.beachbuddy.ui.specific.uvindex.sunprogress
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -18,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.andrew.beachbuddy.R
 import com.andrew.beachbuddy.ui.DarkLightPhonePreviews
@@ -30,7 +34,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import kotlin.math.PI
-import kotlin.math.roundToInt
 import kotlin.math.sin
 
 @Composable
@@ -43,6 +46,17 @@ fun SunProgressRealistic(
 ) {
 
     val extremeUVColor = colorResource(id = R.color.uv_extreme)
+
+    val pulseAlpha by rememberInfiniteTransition(label = "pulse").animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.6f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ), label = "pulseAlpha"
+    )
+
+    val constantAlpha = 0.5f
 
     Canvas(
         modifier = modifier
@@ -79,27 +93,20 @@ fun SunProgressRealistic(
             close()
         }
 
-
+        // The border of the bell curve
         drawPath(
             path = path,
             color = extremeUVColor,
-//            brush = Brush.verticalGradient(
-//                colors = listOf(
-//                    Color.Transparent,
-//                    extremeUVColor.copy(alpha = 0.5f),
-//                ),
-//                startY = 0f,
-//                endY = size.height
-//            ),
             style = Stroke(width = 2.dp.toPx())
         )
 
+        // The inside of the bell curve
         drawPath(
             path = path,
             brush = Brush.verticalGradient(
                 colors = listOf(
                     Color.Transparent,
-                    extremeUVColor.copy(alpha = 0.5f),
+                    extremeUVColor.copy(alpha = pulseAlpha),
                 ),
                 startY = 0f,
                 endY = size.height
@@ -117,10 +124,19 @@ fun SunProgressRealistic(
         }
 
 
+        // Drawing of the sun
         drawCircle(
-            color = Color.Yellow,
-            radius = 12f,
-            center = Offset(sunX, sunY)
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    Color.Yellow,
+                    Color.Yellow,
+                    Color.White.copy(alpha = 0.5f)
+                ),
+                radius = 15f,
+                center = Offset(sunX, sunY)
+            ),
+            radius = 15f,
+            center = Offset(sunX, sunY),
         )
     }
 }

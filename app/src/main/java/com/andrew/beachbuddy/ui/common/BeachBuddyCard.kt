@@ -1,5 +1,6 @@
 package com.andrew.beachbuddy.ui.common
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -28,6 +29,11 @@ fun BeachBuddyCard(
         shape = MaterialTheme.shapes.extraSmall,
         onClick = onClick,
         modifier = modifier.padding(padding)
+//      modifier = modifier.padding(padding).border(
+//            width = 2.dp,
+//            color = colors.containerColor,
+//            shape = MaterialTheme.shapes.extraSmall
+//        )
     ) {
         content()
     }
