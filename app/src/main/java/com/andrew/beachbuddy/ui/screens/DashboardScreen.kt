@@ -54,7 +54,10 @@ fun DashboardScreen(
 
     DashboardScreen(
         dashboardUiState = uiState,
-        onNightModeClicked = onNightModeClicked,
+        onNightModeClicked = {
+            dashboardViewModel.forceUpdate()
+            onNightModeClicked()
+        },
         onSettingsClicked = onSettingsClicked,
         modifier = modifier
     )

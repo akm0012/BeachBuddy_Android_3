@@ -10,6 +10,7 @@ import com.andrew.beachbuddy.database.model.maxScore
 import com.andrew.beachbuddy.repository.DashboardRepository
 import com.andrew.beachbuddy.ui.domainmodels.WeatherDM
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -75,4 +76,11 @@ class DashboardViewModel @Inject constructor(
             dashboardRepository.refreshDashboard()
         }
     }
+
+    fun forceUpdate() {
+        viewModelScope.launch {
+            dashboardRepository.refreshDashboard()
+        }
+    }
+
 }
